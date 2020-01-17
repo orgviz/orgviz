@@ -1,0 +1,57 @@
+@title: Example Company
+
+Alice
+	title: CEO
+	team: Leadership
+	influence: enemy
+
+Bob
+	title: CFO
+	reports -> Alice
+	team: Leadership
+	influence: supporter
+
+Charles
+	title: CMO
+	reports -> Alice
+	team: Leadership
+
+Dave 
+	title: Accountant 1
+	reports -> Bob
+	team: Finance
+
+Edwina
+	title: Accountant 2
+	reports -> Bob
+	team: Finance
+
+Fred
+	reports -> Charles
+	title: Website Maintainer
+	team: Marketing
+
+Gerald
+	reports -> Charles
+	title: SEO Expert
+	team: Marketing
+	loves -> Fred
+
+Harold
+	title: Software Engineer
+	reports -> Imogen
+	supports -> Fred
+	team: IT
+
+Imogen
+	title: CTO
+	reports -> Alice
+	team: IT
+	influence: promoter
+
+James
+	title: Support Engineer
+	supports -> Harold
+	team: IT
+	reports -> Imogen
+	influence: promoter
