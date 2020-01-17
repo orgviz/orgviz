@@ -45,6 +45,10 @@ Full Name
 
 For the example input file that makes up the screenshot above, please see the [examples directory](examples/).
 
+**Note**: The input file __requires__ [tabs, not
+spaces](https://www.youtube.com/watch?v=SsoOG6ZeyUI). It won't parse if you
+intent with spaces. 
+
 Configuration File
 ----
 
