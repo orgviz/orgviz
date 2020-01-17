@@ -3,6 +3,8 @@ orgviz
 
 A tool to visualize the "real" structure of organizations.
 
+![](docs/ExampleCompany.png)
+
 On a technical level, this tool basically parses a high level text based language, which is compiled to the amazing GraphViz `dia` program language. It provides extra constructs and ease of use for drawing complex org charts (graphs!). 
 
 Installation
@@ -41,9 +43,7 @@ Full Name
     title: Job Title
 ```
 
-For example input files, please see the [examples directory](examples/).
-
-![](docs/ExampleCompany.png)
+For the example input file that makes up the screenshot above, please see the [examples directory](examples/).
 
 Configuration File
 ----
