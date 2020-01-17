@@ -35,20 +35,6 @@ class Person():
     def setInfluence(self, influence):
         self.influence = influence.strip()
 
-    def getRecord(self):
-        profilePic = ""
-
-        if args.profilePictures:
-            pic = args.profilePictureDirectory + self.fullName + ".jpeg"
-
-            if (os.path.exists(pic)):
-                logging.debug("Found LinkedIn profile: " + pic)
-                profilePic = '<TABLE BORDER="0"><TR><TD><IMG SRC = "' + pic + '" /></TD></TR></TABLE>|'
-            else:
-                logging.warning("No profile pic found for " + pic)
-
-        return '<{<B>' + self.fullName + '</B>|' + profilePic  + '<FONT POINT-SIZE="9">Title: ' + self.jobTitle + ' </FONT>}>'
-
     def setTeam(self, team):
         self.team = team
 
@@ -226,6 +212,21 @@ def getEdgeDotStyle(edge):
     else:
         return ""
 
+def getPersonLabelAsDot(person):
+    profilePic = ""
+
+    if args.profilePictures:
+        pic = args.profilePictureDirectory + person.fullName + ".jpeg"
+
+        if (os.path.exists(pic)):
+            logging.debug("Found LinkedIn profile: " + pic)
+            profilePic = '<TABLE BORDER="0"><TR><TD><IMG SRC = "%s" /></TD></TR></TABLE>|' % (pic)
+        else:
+            logging.warning("No profile pic found for " + pic)
+
+    return '<{<B>' + person.fullName + '</B>|' + profilePic  + '<FONT POINT-SIZE="9">Title: ' + person.jobTitle + ' </FONT>}>'
+
+
 def getModelAsDot(model):
     out = ""
     out += "digraph {\n"
@@ -240,12 +241,7 @@ def getModelAsDot(model):
     for person in model.people.values():
         if isPersonExcluded(person): continue
 
-        out += person.dotNodeName + ' [label=' + person.getRecord() + ']' + "\n"
-
-    for person in model.people.values():
-        if isPersonExcluded(person): continue
-
-        out += ("%s [%s]\n") % (person.dotNodeName, getInfluenceStyleAsDot(person.influence))
+        out += ("%s [label=%s,%s]\n") % (person.dotNodeName, getPersonLabelAsDot(person), getInfluenceStyleAsDot(person.influence))
 
     for edge in model.edges:
         if isPersonExcluded(model.people[edge['origin']]) or isPersonExcluded(model.people[edge['destination']]): continue
