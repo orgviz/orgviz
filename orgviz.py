@@ -21,6 +21,7 @@ def getArgumentParser():
     parser.add_argument("--profilePictures", "-P", action = "store_true")
     parser.add_argument("--outputType", "-T", default = "svg", choices = ["png", "svg"])
     parser.add_argument("--keepDotfile", action = "store_false")
+    parser.add_argument("--vizType", choices = ["DS", "inf"], default = "inf");
 
     return parser
 
@@ -31,6 +32,8 @@ class Person():
         self.team = "??"
         self.jobTitle = "??"
         self.influence = ""
+        self.dmu = "?"
+        self.sentiment = "?"
 
     def setInfluence(self, influence):
         self.influence = influence.strip()
@@ -123,6 +126,14 @@ def parsePersonProperty(model, line):
         model.lastPerson.setInfluence(propertyValue)
         return
 
+    if propertyKey == "sentiment":
+        model.lastPerson.sentiment = propertyValue 
+        return
+
+    if propertyKey == "dmu":
+        model.lastPerson.dmu = propertyValue 
+        return
+
     if propertyKey == "team":
         model.addTeam(propertyValue)
         model.lastPerson.setTeam(propertyValue)
@@ -154,17 +165,20 @@ def getLegendAsDot():
     out = ""
 
     if not args.skipDrawingLegend:
-        out = ""
-        out += "subgraph cluster_00 {\n"
-        out += "label=Legend\n"
-        out += "fillcolor=beige\n"
-        out += "style=filled\n"
-        out += "node [fontsize=9]\n"
-        out += "supporter [fillcolor=skyblue, style=filled]\n"
-        out += "promoter [fillcolor=GreenYellow, style=filled]\n"
-        out += "enemy [fillcolor=salmon, style=filled]\n"
-        out += "internal [fillcolor=black, fontcolor = white, style=filled]\n"
-        out += "}\n"
+        if args.vizType == "DS":
+            pass
+        
+        if args.vizType == "inf":
+            out += "subgraph cluster_00 {\n"
+            out += "label=Legend\n"
+            out += "fillcolor=beige\n"
+            out += "style=filled\n"
+            out += "node [fontsize=9]\n"
+            out += "supporter [fillcolor=skyblue, style=filled]\n"
+            out += "promoter [fillcolor=GreenYellow, style=filled]\n"
+            out += "enemy [fillcolor=salmon, style=filled]\n"
+            out += "internal [fillcolor=black, fontcolor = white, style=filled]\n"
+            out += "}\n"
 
     return out
 
@@ -193,9 +207,9 @@ def getTeamsAsDot(model):
         subGraphCount += 1
 
         out += "subgraph cluster_" + str(subGraphCount) + "{\n"
-        out += 'label=' + teamName + "\n"
+        out += 'label="' + teamName + '"' + "\n"
         out += "style=filled\n"
-        out += "fillcolor=gray\n"
+        out += "fillcolor=skyblue\n"
 
         for person in model.people.values():
             if isPersonExcluded(person): continue
@@ -212,7 +226,31 @@ def getEdgeDotStyle(edge):
     else:
         return ""
 
+def getStyleForDmu(dmu):
+    return "white"
+
+def getStyleForSentiment(sentiment):
+    if sentiment == "P": return "green";
+    if sentiment == "N": return "yellow";
+    if sentiment == "O": return "red";
+
+    return "white"
+
+def getDsVisType(person):
+
+    ret = '<tr><td bgcolor = "%s" border = "1">%s</td><td bgcolor = "%s" border = "1">%s</td></tr>' % (
+        getStyleForDmu(person.dmu),
+        person.dmu, 
+        getStyleForSentiment(person.sentiment),
+        person.sentiment
+    )
+    return ret
+
 def getPersonLabelAsDot(person):
+    ret = '<<table border = "0" cellspacing = "0">';
+    ret += '<tr><td border = "1" colspan = "2">%s</td></tr>' % person.fullName
+    ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.jobTitle
+
     profilePic = ""
 
     if args.profilePictures:
@@ -220,11 +258,16 @@ def getPersonLabelAsDot(person):
 
         if (os.path.exists(pic)):
             logging.debug("Found LinkedIn profile: " + pic)
-            profilePic = '<TABLE BORDER="0"><TR><TD><IMG SRC = "%s" /></TD></TR></TABLE>|' % (pic)
+
+            ret += '<tr><td border = "1"><img src = "%s" /></td></tr>' % pic
         else:
             logging.warning("No profile pic found for " + pic)
 
-    return '<{<B>' + person.fullName + '</B>|' + profilePic  + '<FONT POINT-SIZE="9">Title: ' + person.jobTitle + ' </FONT>}>'
+    if args.vizType == "DS":
+        ret += getDsVisType(person)
+
+    ret += "</table>>"
+    return ret;
 
 
 def getModelAsDot(model):
@@ -241,7 +284,7 @@ def getModelAsDot(model):
     for person in model.people.values():
         if isPersonExcluded(person): continue
 
-        out += ("%s [label=%s,%s]\n") % (person.dotNodeName, getPersonLabelAsDot(person), getInfluenceStyleAsDot(person.influence))
+        out += ("%s [margin=0, border=invisible, label=%s,%s]\n") % (person.dotNodeName, getPersonLabelAsDot(person), getInfluenceStyleAsDot(person.influence))
 
     for edge in model.edges:
         if isPersonExcluded(model.people[edge['origin']]) or isPersonExcluded(model.people[edge['destination']]): continue
