@@ -176,7 +176,7 @@ def getLegendAsDot():
             out += "node [fontsize=9]\n"
             out += "supporter [fillcolor=skyblue, style=filled]\n"
             out += "promoter [fillcolor=GreenYellow, style=filled]\n"
-            out += "enemy [fillcolor=salmon, style=filled]\n"
+            out += "hostile [fillcolor=salmon, style=filled]\n"
             out += "internal [fillcolor=black, fontcolor = white, style=filled]\n"
             out += "}\n"
 
@@ -259,7 +259,7 @@ def getPersonLabelAsDot(person):
         if (os.path.exists(pic)):
             logging.debug("Found LinkedIn profile: " + pic)
 
-            ret += '<tr><td border = "1"><img src = "%s" /></td></tr>' % pic
+            ret += '<tr><td colspan = "2" border = "1"><img src = "%s" /></td></tr>' % pic
         else:
             logging.warning("No profile pic found for " + pic)
 
