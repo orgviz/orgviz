@@ -7,6 +7,7 @@ import logging
 import tempfile
 import subprocess
 import os
+import re
 
 def getArgumentParser():
     parser = ArgParser(default_config_files = ["~/.orgviz.cfg"])
@@ -21,19 +22,26 @@ def getArgumentParser():
     parser.add_argument("--profilePictures", "-P", action = "store_true")
     parser.add_argument("--outputType", "-T", default = "svg", choices = ["png", "svg"])
     parser.add_argument("--keepDotfile", action = "store_false")
-    parser.add_argument("--vizType", choices = ["DS", "inf"], default = "inf");
+    parser.add_argument("--vizType", choices = ["DS", "inf"], default = "DS");
+    parser.add_argument("--attributeMatches", "-a", nargs = "*", default = [], metavar = "KEY=VALUE")
 
     return parser
 
 class Person():
     def __init__(self, fullName):
-        self.fullName = fullName.strip()
+        fullName = fullName.strip()
+
+        if re.fullmatch("[\w ]+", fullName) == None:
+            logging.warn("Person's name contains invalid characters: " + fullName);
+
+        self.fullName = fullName
         self.dotNodeName = convertHumanNameToDotNodeName(fullName)
         self.team = "??"
         self.jobTitle = "??"
         self.influence = ""
         self.dmu = "?"
         self.sentiment = "?"
+        self.attributes = dict();
 
     def setInfluence(self, influence):
         self.influence = influence.strip()
@@ -41,12 +49,30 @@ class Person():
     def setTeam(self, team):
         self.team = team
 
+    def hasAttribute(self, key):
+        return key in self.attributes
+
+    def getAttribute(self, key):
+        if key in self.attributes:
+            return self.attributes[key]
+
+        return ""
+
+    def setAttribute(self, k, v):
+        self.attributes[k] = v
+
 class Model():
     def __init__(self):
         self.title = "Untitled Organization"
         self.people = dict()
         self.edges = []
         self.teams = set()
+
+    def getPersonByName(self, personFullName):
+        if personFullName in self.people:
+            return self.people[personFullName]
+
+        raise Exception("Person not found: " + personFullName)
 
     def addPerson(self, personFullName):
         person = Person(personFullName)
@@ -143,7 +169,7 @@ def parsePersonProperty(model, line):
         model.lastPerson.jobTitle = propertyValue
         return
 
-    logging.warning("Could not parse person property line:" + line)
+    model.lastPerson.setAttribute(propertyKey, propertyValue)
 
 def convertHumanNameToDotNodeName(name):
     name = name.strip().replace(" ", "_")
@@ -183,6 +209,15 @@ def getLegendAsDot():
     return out
 
 def isPersonExcluded(person):
+    if len(args.attributeMatches) > 0: 
+        for attributeSearch in args.attributeMatches:
+            if "=" not in attributeSearch: continue
+
+            key, val = map(lambda i: i.strip(), attributeSearch.split("=", 1))
+
+            if val not in person.getAttribute(key):
+                return True
+
     if len(args.teams) > 0 and person.team not in args.teams:
         return True
 
@@ -263,6 +298,9 @@ def getPersonLabelAsDot(person):
         else:
             logging.warning("No profile pic found for " + pic)
 
+    if person.hasAttribute("country"):
+        ret += '<tr><td colspan = "2">' + person.getAttribute('country')  +  '</td></tr>'
+
     if args.vizType == "DS":
         ret += getDsVisType(person)
 
@@ -287,7 +325,7 @@ def getModelAsDot(model):
         out += ("%s [margin=0, border=invisible, label=%s,%s]\n") % (person.dotNodeName, getPersonLabelAsDot(person), getInfluenceStyleAsDot(person.influence))
 
     for edge in model.edges:
-        if isPersonExcluded(model.people[edge['origin']]) or isPersonExcluded(model.people[edge['destination']]): continue
+        if isPersonExcluded(model.getPersonByName(edge['origin'])) or isPersonExcluded(model.getPersonByName(edge['destination'])): continue
 
         out += ('%s -> %s [label="%s", %s]' % (edge['origin'], edge['destination'], edge['type'], getEdgeDotStyle(edge))) + "\n"
 
