@@ -39,8 +39,8 @@ class Person():
         self.team = "??"
         self.jobTitle = "??"
         self.influence = ""
-        self.dmu = "?"
-        self.sentiment = "?"
+        self.dmu = "Decision Maker?"
+        self.sentiment = "Sentiment?"
         self.attributes = dict();
 
     def setInfluence(self, influence):
@@ -262,6 +262,12 @@ def getEdgeDotStyle(edge):
         return ""
 
 def getStyleForDmu(dmu, fullName):
+    if dmu == "D": return "green"
+    if dmu == "I": return "blue"
+    if dmu == "G": return "red"
+
+    logging.warning("Unknown `dmu` (decision maker) for: " + fullName + ", got: " + dmu + ", but should be [D]ecision Maker, [I]nfluencer or [G]atekeeper")
+
     return "white"
 
 def getStyleForSentiment(sentiment, fullName):
@@ -269,7 +275,7 @@ def getStyleForSentiment(sentiment, fullName):
     if sentiment == "N": return "yellow";
     if sentiment == "O": return "red";
 
-    logging.warning("Unknown sentiment for: " + fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
+    logging.warning("Unknown `sentiment` for: " + fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
 
     return "white"
 
