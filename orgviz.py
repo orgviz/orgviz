@@ -261,22 +261,23 @@ def getEdgeDotStyle(edge):
     else:
         return ""
 
-def getStyleForDmu(dmu):
+def getStyleForDmu(dmu, fullName):
     return "white"
 
-def getStyleForSentiment(sentiment):
+def getStyleForSentiment(sentiment, fullName):
     if sentiment == "P": return "green";
     if sentiment == "N": return "yellow";
     if sentiment == "O": return "red";
 
+    logging.warning("Unknown sentiment for: " + fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
+
     return "white"
 
 def getDsVisType(person):
-
     ret = '<tr><td bgcolor = "%s" border = "1">%s</td><td bgcolor = "%s" border = "1">%s</td></tr>' % (
-        getStyleForDmu(person.dmu),
+        getStyleForDmu(person.dmu, person.fullName),
         person.dmu, 
-        getStyleForSentiment(person.sentiment),
+        getStyleForSentiment(person.sentiment, person.fullName),
         person.sentiment
     )
     return ret
