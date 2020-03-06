@@ -144,8 +144,8 @@ def parseConnection(model, line):
         model.addConnection(edgeType.strip(), destination.strip())
 
 def parsePersonProperty(model, line):
-    propertyKey, propertyValue = line.split(":", 1).lower()
-    propertyKey = propertyKey.strip()
+    propertyKey, propertyValue = line.split(":", 1)
+    propertyKey = propertyKey.strip().lower()
     propertyValue = propertyValue.strip()
 
     if propertyKey == "influence":
