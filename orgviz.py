@@ -144,7 +144,7 @@ def parseConnection(model, line):
         model.addConnection(edgeType.strip(), destination.strip())
 
 def parsePersonProperty(model, line):
-    propertyKey, propertyValue = line.split(":", 1)
+    propertyKey, propertyValue = line.split(":", 1).lower()
     propertyKey = propertyKey.strip()
     propertyValue = propertyValue.strip()
 
