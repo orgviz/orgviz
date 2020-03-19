@@ -45,6 +45,7 @@ class Person():
 
     def getDmuDescription(self):
         if self.dmu == "D": return "Decision Maker"
+        if self.dmu == "B": return "Buyer"
         if self.dmu == "I": return "Influencer"
         if self.dmu == "G": return "Gatekeeper"
         if self.dmu == "U": return "User"
@@ -277,6 +278,7 @@ def getEdgeDotStyle(edge):
 def getStyleForDmu(dmu, fullName):
     if dmu == "D": return "green"
     if dmu == "I": return "skyblue"
+    if dmu == "B": return "purple"
     if dmu == "G": return "pink"
     if dmu == "U": return "gray"
 

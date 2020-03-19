@@ -1,8 +1,9 @@
-= orgviz 
-
 :sectnums:
 :title: orgviz 
 :sectanchors:
+:toc:
+
+= orgviz 
 
 A tool to visualize the "real" structure of organizations.
 
@@ -18,7 +19,7 @@ should work on a Mac just fine.
 
 If using this tool from source, the following packages are required; 
 
-- GraphViz's `dot`
+- GraphViz's `dot` - you can get this from `yum install graphviz` on most Linux distributions.
 - `python3`
 
 The following python3 libraries are also required; 
@@ -77,27 +78,46 @@ parse if you indent with spaces.
 Connection types can be anything - the format is `[type] -> Full Name`. Some
 common types are `supports`, `reports`, `loves`, etc. 
 
-== Influence type
+NOTE: `supports` is the only connection type that draws a "dotted line" between
+people. All other line types are straight arrows.
 
-=== Decision Maker and Sentiment
+== Vizualisation Type (`vizType`)
 
-orgviz defaults to a "sales" view, using **Decision Maker** (`dmu`) and
-**Sentiment** (`sentiment`) attributes. Here's how you might use them;
+When rendering the picture, there are various ways to vizualize the people. You
+can choose 1 of these options (eg `--vizType none`);
+
+1. `DS` - **Decision Making Unit** and **Sentiment** (default) 
+** Uses the `dmu` and `sentiment` attributes on people. <<vizTypeDs,Go to `vizType=DS` docs>>.
+2. `inf`[luence] - A simple enemy / supporter / promoter
+** Uses the `influence` attribute on people. <<vizTypeInf,Go to `vizType=inf` docs>>
+3. `none` - everyone is drawn with just white boxes. <<vizTypeNone,Go to `vizType=none` docs>>
+
+
+=== `DS` - Decision Making Unit and Sentiment [[vizTypeDs]] (default)
+
+orgviz defaults to this `DS` view, which is useful for sales. `DS`
+stands for **Decision Making Unit** (`dmu`) and **Sentiment** (`sentiment`). 
+
+==== Example
+
+image::docs/vizTypeDs.png[Example of DS]
+
+==== How to use
 
 ----
-Alice
-	title: CEO
-	team: Leadership
-	dmu: D
-	sentiment: N
+James
+	title: Support Engineer
+	dmu: U
+	sentiment: O
 ----
 
 Available `dmu` options;
 
-- **D**ecision Maker
-- **I**nfluencer
-- **G**atekeeper
-- **U**ser
+- **U**ser - These are the people in an organisation who actually work with the products/services and get organisational benefits from them.  In many instances they are the ones that initiate the requirement for a solution.
+- **I**nfluencer - These are the people who can influence the buying decision for a number of reasons. For example, the IT team within and company may influence an organisation’s decision as to what software or solutions the company should buy. In this example, they are often the ones charged with evaluating various alternatives and making the internal recommendation to the business. If Red Hat is selected then we have achieved a Technical Win
+- **G**atekeeper - These people control the flow of information to others. For example, a personal secretary may not allow the sales people from a supplier to have access to deciders or users. Likewise, a receptionist may play the role of a gatekeeper as he/she usually maintains telephone, email, and postal communications.  
+- **B**uyer - These are the people who have formal authority to negotiate with suppliers. They negotiate and arrange terms of purchase with the suppliers. As negotiation is a specialist area, high level employees usually play the roles of buyers.
+- **D**ecision Maker - These are the people who have the final say in the buying decision. They have the power and authority to select the final suppliers to move on with the buying process.  For example, the finance manager in a company may decide which supplier to work with on the basis of how much money the supplier is asking for a particular product/service.
 
 Available `sentiment` options;
 
@@ -105,15 +125,20 @@ Available `sentiment` options;
 - **N**eutral
 - **O**pponent 
 
-=== Influence 
+=== `inf`[luence] [[vizTypeInf]]
 
-There is also the option to use a more simple view, called "influence". For
-example; 
+There is also the option to use a more simple view, called "influence" - does
+this person influential or not?
+
+==== Example
+
+image::docs/vizTypeInf.png[Example of DS]
+
+==== How to use
 
 ----
-Alice
-	title: CEO
-	team: Leadership
+James 
+	title: Support Engineer
 	influence: enemy
 ----
 
@@ -124,11 +149,18 @@ Available `influence` options;
 - `promoter` - Green
 - `internal` - Black
 
-=== Plain display
+=== Plain display [[vizTypeNone]]
 
 Sometimes you don't want to show the influence type when generating the
-picture - this is useful for presentations and similar. Simply run orgviz like
-this;
+picture - this is useful for presentations and similar. 
+
+==== Example
+
+image::docs/vizTypeNone.png[Example of no vizType]
+
+==== How to use
+
+You don't need to change any attributes. Simply run orgviz like this;
 
 ----
 ./orgviz.py --vizType none
