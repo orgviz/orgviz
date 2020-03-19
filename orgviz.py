@@ -59,6 +59,48 @@ class Person():
 
         return "sentiment?"
 
+    def setDmu(self, newValue):
+        dmu = newValue.upper().strip()
+
+        if dmu in ["D", "DECISION MAKER", "DM"]: 
+            self.dmu = "D"
+            return
+
+        if dmu in ["B", "BUYER", "BUY"]:
+            self.dmu = "B"
+            return
+
+        if dmu in ["I", "INFLUENCER"]:
+            self.dmu = "I"
+            return
+
+        if dmu in ["G", "GATEKEEPER"]:
+            self.dmu = "G"
+            return
+
+        if dmu in ["U", "USER"]:
+            self.dmu = "U"
+            return
+
+        logging.warning("Unknown `dmu` (decision making unit) for: " + self.fullName + ", got: " + dmu + ", but should be [D]ecision Maker, [B]uyer, [I]nfluencer, [G]atekeeper, [U]ser")
+
+    def setSentiment(self, newValue):
+        sentiment = newValue.upper().strip()
+
+        if sentiment in ["P", "PROMOTOR", "PROMOTER", "PROPONENT"]:
+            self.sentiment = "P"
+            return
+
+        if sentiment in ["O", "OPPONENT"]:
+            self.sentiment = "O"
+            return
+
+        if sentiment in ["N", "NEUTRAL"]:
+            self.sentiment = "N"
+            return
+
+        logging.warning("Unknown `sentiment` for: " + self.fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
+
     def setInfluence(self, influence):
         self.influence = influence.strip()
 
@@ -70,7 +112,11 @@ class Person():
 
     def getAttribute(self, key):
         if key in self.attributes:
-            return self.attributes[key]
+            rawValue = self.attributes[key]
+
+            safeValue = rawValue.replace('&', '&amp;')
+
+            return safeValue
 
         return "??"
 
@@ -169,11 +215,11 @@ def parsePersonProperty(model, line):
         return
 
     if propertyKey == "sentiment":
-        model.lastPerson.sentiment = propertyValue 
+        model.lastPerson.setSentiment(propertyValue)
         return
 
     if propertyKey == "dmu":
-        model.lastPerson.dmu = propertyValue 
+        model.lastPerson.setDmu(propertyValue)
         return
 
     if propertyKey == "team":
@@ -189,7 +235,7 @@ def convertHumanNameToDotNodeName(name):
     return name
 
 def getInfluenceStyleAsDot(influence):
-    if args.vizType == "none": return "fillcolor=white, style=filled"
+    if args.vizType != "inf": return "fillcolor=white, style=filled"
 
     if influence == "supporter": return "fillcolor=skyblue, style=filled"
     if influence == "promoter": return 'fillcolor=GreenYellow, style=filled'
@@ -197,7 +243,7 @@ def getInfluenceStyleAsDot(influence):
     if influence == "internal": return "fillcolor=black, style=filled, fontcolor=white"
     if influence.strip() == "": return "fillcolor=white, style=filled";
 
-    logging.warning("unknown class: " + influence)
+    logging.warning("Unknown influence class: " + influence)
 
     return ""
 
@@ -282,16 +328,12 @@ def getStyleForDmu(dmu, fullName):
     if dmu == "G": return "pink"
     if dmu == "U": return "gray"
 
-    logging.warning("Unknown `dmu` (decision maker) for: " + fullName + ", got: " + dmu + ", but should be [D]ecision Maker, [I]nfluencer or [G]atekeeper")
-
     return "white"
 
 def getStyleForSentiment(sentiment, fullName):
     if sentiment == "P": return "green";
     if sentiment == "N": return "yellow";
     if sentiment == "O": return "pink";
-
-    logging.warning("Unknown `sentiment` for: " + fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
 
     return "white"
 
@@ -306,7 +348,7 @@ def getDsVisType(person):
 
 def getPersonLabelAsDot(person):
     ret = '<<table border = "0" cellspacing = "0">';
-    ret += '<tr><td border = "1" colspan = "2">%s</td></tr>' % person.fullName
+    ret += '<tr><td border = "1" colspan = "2"><b>%s</b></td></tr>' % person.fullName
     ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.getAttribute("title")
 
     profilePic = ""
