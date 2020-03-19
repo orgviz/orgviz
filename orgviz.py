@@ -106,7 +106,7 @@ class Model():
         })
 
 def getFileContents():
-    logging.info("Reading file: " + args.input)
+    logging.info("Reading org file: " + args.input)
 
     try: 
         f = open(args.input, 'r');
@@ -385,17 +385,19 @@ def main():
 
             outputImageFilename = os.getcwd() + "/orgviz." + args.outputType
             
-            cmd = "dot -T" + args.outputType + " " + str(tmp.name) + " -o" + outputImageFilename
+            try: 
+                cmd = "dot -T" + args.outputType + " " + str(tmp.name) + " -o" + outputImageFilename
 
-            logging.debug("Running dot like this: " + cmd)
+                logging.debug("Running dot like this: " + cmd)
 
-            output = subprocess.run(cmd.split(" "), shell = False, stderr = True, stdout = True)
+                output = subprocess.run(cmd.split(" "), shell = False, stderr = True, stdout = True)
 
-            if output.returncode == 0:
-                logging.info("Completed sucessfully, rendered: " + outputImageFilename)
-
-            else:
-                logging.error("dot output: " + str(output))
+                if output.returncode == 0:
+                    logging.info("Completed sucessfully, rendered: " + outputImageFilename)
+                else:
+                    logging.error("dot output: " + str(output))
+            except FileNotFoundError: 
+                logging.error("FileNotFoundError. Is the GraphViz's `dot` command installed on your computer? ")
 
             tmp.close()
 
