@@ -6,7 +6,7 @@ Alice
 	dmu: D
 	sentiment: N
 
-Bob
+Böb
 	title: CFO
 	reports -> Alice
 	team: Leadership
@@ -22,14 +22,14 @@ Charles
 
 Dave 
 	title: Accountant 1
-	reports -> Bob
+	reports -> Böb
 	team: Finance
 	sentiment: N
 	dmu: G
 
 Edwina
 	title: Accountant 2
-	reports -> Bob
+	reports -> Böb
 	team: Finance
 	dmu: G
 	sentiment: P
@@ -71,3 +71,17 @@ James
 	reports -> Imogen
 	dmu: U
 	sentiment: O
+
+Lisa-Marie
+	reports -> Alice
+	team: Leadership
+	dmu: U
+	sentiment: P
+	title: Sales & Services
+
+Kolbjørn
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance

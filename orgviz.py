@@ -24,6 +24,7 @@ def getArgumentParser():
     parser.add_argument("--outputType", "-T", default = "svg", choices = ["png", "svg"])
     parser.add_argument("--keepDotfile", action = "store_false")
     parser.add_argument("--vizType", choices = ["DS", "inf", "none"], default = "DS");
+    parser.add_argument("--dpi", type = int, default = 100, help = 'DPI (resolution), only used for PNG.');
     parser.add_argument("--attributeMatches", "-a", nargs = "*", default = [], metavar = "KEY=VALUE")
 
     return parser
@@ -231,6 +232,7 @@ def parsePersonProperty(model, line):
 
 def convertHumanNameToDotNodeName(name):
     name = name.strip().replace(" ", "_")
+    name = name.strip().replace("-", "")
 
     return name
 
@@ -378,7 +380,7 @@ def getModelAsDot(model):
     out += "digraph {\n"
 
     if args.outputType == "png":
-        out += "graph [ dpi = 300 ]\n"
+        out += "graph [ dpi = " + str(args.dpi) +  " ]\n"
 
     if not args.skipDrawingTitle:
         out += 'label="' + model.title + ' - github.com/jamesread/orgviz"' + "\n"
