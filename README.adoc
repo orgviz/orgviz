@@ -88,12 +88,12 @@ can choose 1 of these options (eg `--vizType none`);
 
 1. `DS` - **Decision Making Unit** and **Sentiment** (default) 
 ** Uses the `dmu` and `sentiment` attributes on people. <<vizTypeDs,Go to `vizType=DS` docs>>.
-2. `inf`[luence] - A simple enemy / supporter / promoter
+2. `inf` - Influence - A simple enemy / supporter / promoter
 ** Uses the `influence` attribute on people. <<vizTypeInf,Go to `vizType=inf` docs>>
 3. `none` - everyone is drawn with just white boxes. <<vizTypeNone,Go to `vizType=none` docs>>
 
 
-=== `DS` - Decision Making Unit and Sentiment [[vizTypeDs]] (default)
+=== Option 1: `DS` - Decision Making Unit and Sentiment [[vizTypeDs]] (default)
 
 orgviz defaults to this `DS` view, which is useful for sales. `DS`
 stands for **Decision Making Unit** (`dmu`) and **Sentiment** (`sentiment`). 
@@ -125,7 +125,7 @@ Available `sentiment` options;
 - **N**eutral
 - **O**pponent 
 
-=== `inf`[luence] [[vizTypeInf]]
+=== Option 2: `inf` - Influence [[vizTypeInf]]
 
 There is also the option to use a more simple view, called "influence" - does
 this person influential or not?
@@ -149,7 +149,7 @@ Available `influence` options;
 - `promoter` - Green
 - `internal` - Black
 
-=== Plain display [[vizTypeNone]]
+=== Option 3: Plain display [[vizTypeNone]]
 
 Sometimes you don't want to show the influence type when generating the
 picture - this is useful for presentations and similar. 
