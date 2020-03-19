@@ -54,7 +54,7 @@ xdg-open orgviz.svg (3)
 2. Run orgviz to generate the image.
 3. Open the image with your default system viewer. 
 
-[NOTE] Most image viewers support "refresh", so you can edit in one text editor
+NOTE: Most image viewers support "refresh", so you can edit in one text editor
 window, and then "refresh" the currently open image just by pressing F5.
 
 == Organization (Input) File Formal Syntax
