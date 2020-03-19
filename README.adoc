@@ -124,7 +124,7 @@ Available `influence` options;
 - `promoter` - Green
 - `internal` - Black
 
-== Plain display
+=== Plain display
 
 Sometimes you don't want to show the influence type when generating the
 picture - this is useful for presentations and similar. Simply run orgviz like
@@ -139,6 +139,15 @@ this;
 If you get tired of specifying command line options, then create
 `~/.orgviz.cfg` and pop your options in there to save time. You can use
 `--help` to find the list of all available options.
+
+== Profile pictures
+
+At the moment, profile pictures just come from a directory of `.jpeg` files
+that match people's names. Set the `profilePictureDirectory` option to a
+directory of photos, and `profilePictures` to use this feature.
+
+There is a separate microservice in development that auto-grabs profile
+pictures and LinkedIn details, but this is not released yet.
 
 == Credits
 
