@@ -14,6 +14,7 @@ def getArgumentParser():
     parser.add_argument("--input", "-I", default = "default.org", env_var = "ORGVIZ_INPUT")
     parser.add_argument("--skipDrawingLegend", "-L", action = "store_true")
     parser.add_argument("--skipDrawingTeams", action = "store_true")
+    parser.add_argument("--skipDrawingTitle", action = "store_true")
     parser.add_argument("--dotout", action = "store_true")
     parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.")
     parser.add_argument("--teams", nargs = "*", default = [])
@@ -22,7 +23,7 @@ def getArgumentParser():
     parser.add_argument("--profilePictures", "-P", action = "store_true")
     parser.add_argument("--outputType", "-T", default = "svg", choices = ["png", "svg"])
     parser.add_argument("--keepDotfile", action = "store_false")
-    parser.add_argument("--vizType", choices = ["DS", "inf"], default = "DS");
+    parser.add_argument("--vizType", choices = ["DS", "inf", "none"], default = "DS");
     parser.add_argument("--attributeMatches", "-a", nargs = "*", default = [], metavar = "KEY=VALUE")
 
     return parser
@@ -37,7 +38,6 @@ class Person():
         self.fullName = fullName
         self.dotNodeName = convertHumanNameToDotNodeName(fullName)
         self.team = "??"
-        self.jobTitle = "??"
         self.influence = ""
         self.dmu = "Decision Maker?"
         self.sentiment = "Sentiment?"
@@ -56,7 +56,7 @@ class Person():
         if key in self.attributes:
             return self.attributes[key]
 
-        return ""
+        return "??"
 
     def setAttribute(self, k, v):
         self.attributes[k] = v
@@ -165,10 +165,6 @@ def parsePersonProperty(model, line):
         model.lastPerson.setTeam(propertyValue)
         return
 
-    if propertyKey == "title":
-        model.lastPerson.jobTitle = propertyValue
-        return
-
     model.lastPerson.setAttribute(propertyKey, propertyValue)
 
 def convertHumanNameToDotNodeName(name):
@@ -177,6 +173,8 @@ def convertHumanNameToDotNodeName(name):
     return name
 
 def getInfluenceStyleAsDot(influence):
+    if args.vizType == "none": return "fillcolor=white, style=filled"
+
     if influence == "supporter": return "fillcolor=skyblue, style=filled"
     if influence == "promoter": return 'fillcolor=GreenYellow, style=filled'
     if influence == "enemy": return "fillcolor=salmon, style=filled"
@@ -291,7 +289,7 @@ def getDsVisType(person):
 def getPersonLabelAsDot(person):
     ret = '<<table border = "0" cellspacing = "0">';
     ret += '<tr><td border = "1" colspan = "2">%s</td></tr>' % person.fullName
-    ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.jobTitle
+    ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.getAttribute("title")
 
     profilePic = ""
 
@@ -318,7 +316,13 @@ def getPersonLabelAsDot(person):
 def getModelAsDot(model):
     out = ""
     out += "digraph {\n"
-    out += 'label="' + model.title + ' - github.com/jamesread/orgviz"' + "\n"
+
+    if args.outputType == "png":
+        out += "graph [ dpi = 300 ]\n"
+
+    if not args.skipDrawingTitle:
+        out += 'label="' + model.title + ' - github.com/jamesread/orgviz"' + "\n"
+
     out += 'labelloc="t"' + "\n"
     out += 'fontname=Overpass' + "\n"
     out += "node [fontname=Overpass, shape=record]\n"
