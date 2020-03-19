@@ -39,9 +39,24 @@ class Person():
         self.team = "??"
         self.jobTitle = "??"
         self.influence = ""
-        self.dmu = "Decision Maker?"
-        self.sentiment = "Sentiment?"
+        self.dmu = "?"
+        self.sentiment = "?"
         self.attributes = dict();
+
+    def getDmuDescription(self):
+        if self.dmu == "D": return "Decision Maker"
+        if self.dmu == "I": return "Influencer"
+        if self.dmu == "G": return "Gatekeeper"
+        if self.dmu == "U": return "User"
+
+        return "dmu?"
+
+    def getSentimentDescription(self):
+        if self.sentiment == "P": return "Proponent"
+        if self.sentiment == "N": return "Neutral"
+        if self.sentiment == "O": return "Opponent"
+
+        return "sentiment?"
 
     def setInfluence(self, influence):
         self.influence = influence.strip()
@@ -263,8 +278,9 @@ def getEdgeDotStyle(edge):
 
 def getStyleForDmu(dmu, fullName):
     if dmu == "D": return "green"
-    if dmu == "I": return "blue"
-    if dmu == "G": return "red"
+    if dmu == "I": return "skyblue"
+    if dmu == "G": return "pink"
+    if dmu == "U": return "gray"
 
     logging.warning("Unknown `dmu` (decision maker) for: " + fullName + ", got: " + dmu + ", but should be [D]ecision Maker, [I]nfluencer or [G]atekeeper")
 
@@ -273,7 +289,7 @@ def getStyleForDmu(dmu, fullName):
 def getStyleForSentiment(sentiment, fullName):
     if sentiment == "P": return "green";
     if sentiment == "N": return "yellow";
-    if sentiment == "O": return "red";
+    if sentiment == "O": return "pink";
 
     logging.warning("Unknown `sentiment` for: " + fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
 
@@ -282,15 +298,15 @@ def getStyleForSentiment(sentiment, fullName):
 def getDsVisType(person):
     ret = '<tr><td bgcolor = "%s" border = "1">%s</td><td bgcolor = "%s" border = "1">%s</td></tr>' % (
         getStyleForDmu(person.dmu, person.fullName),
-        person.dmu, 
+        person.getDmuDescription(), 
         getStyleForSentiment(person.sentiment, person.fullName),
-        person.sentiment
+        person.getSentimentDescription()
     )
     return ret
 
 def getPersonLabelAsDot(person):
     ret = '<<table border = "0" cellspacing = "0">';
-    ret += '<tr><td border = "1" colspan = "2">%s</td></tr>' % person.fullName
+    ret += '<tr><td border = "1" colspan = "2"><b>%s</b></td></tr>' % person.fullName
     ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.jobTitle
 
     profilePic = ""
@@ -301,7 +317,7 @@ def getPersonLabelAsDot(person):
         if (os.path.exists(pic)):
             logging.debug("Found LinkedIn profile: " + pic)
 
-            ret += '<tr><td colspan = "2" border = "1"><img src = "%s" /></td></tr>' % pic
+            ret += '<tr><td colspan = "2" border = "1" width = "100"><img src = "%s" /></td></tr>' % pic
         else:
             logging.warning("No profile pic found for " + pic)
 
