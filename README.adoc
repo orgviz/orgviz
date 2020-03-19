@@ -183,9 +183,10 @@ pictures and LinkedIn details, but this is not released yet.
 
 == Credits
 
-- Alice: Photo by Heitor Verdi from Pexels https://www.pexels.com/photo/woman-wearing-blue-top-2169434/
-- Bob: Photo by Justin Shaifer from Pexels https://www.pexels.com/photo/photography-of-a-guy-wearing-green-shirt-1222271/
-- Charles: https://www.pexels.com/photo/man-leaning-on-wall-2128807/
-- Dave: Photo by Craig McKay from Pexels https://www.pexels.com/photo/gray-scale-bearded-man-842980/
-- Fred: Photo by Nitin Khajotia from Pexels https://www.pexels.com/photo/man-crossed-arms-1516680/
+- Alice: https://www.pexels.com/photo/woman-wearing-blue-top-2169434/[Photo by Heitor Verdi from Pexels]
+- Bob: https://www.pexels.com/photo/photography-of-a-guy-wearing-green-shirt-1222271/[Photo by Justin Shaifer from Pexels]
+- Charles: https://www.pexels.com/photo/man-leaning-on-wall-2128807/[Photo from Pexels]
+- Dave: https://www.pexels.com/photo/gray-scale-bearded-man-842980/[Photo by Craig McKay from Pexels]
+- Fred: https://www.pexels.com/photo/man-crossed-arms-1516680/[Photo by Nitin Khajotia from Pexels]
+
  
