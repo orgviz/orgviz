@@ -57,7 +57,7 @@ xdg-open orgviz.svg (3)
 NOTE: Most image viewers support "refresh", so you can edit in one text editor
 window, and then "refresh" the currently open image just by pressing F5.
 
-== Organization (Input) File Formal Syntax
+== Organization (Input) file syntax
 
 ----
 Full Name
@@ -72,6 +72,15 @@ For the example input file that makes up the screenshot above, please see the [e
 
 **Note**: The input file __requires__ https://www.youtube.com/watch?v=SsoOG6ZeyUI[tabs, not spaces]. It won't
 parse if you indent with spaces. 
+
+Available attributes include;
+
+* team
+* title
+* country
+
+NOTE: You can add any attribute you like, such as `phoneNumber`, or `email`, 
+but attributes not listed above won't be drawn.
 
 == Connections
 
@@ -121,7 +130,7 @@ Available `dmu` options;
 
 Available `sentiment` options;
 
-- **P**romoter
+- **P**roponent
 - **N**eutral
 - **O**pponent 
 
