@@ -3,55 +3,71 @@
 Alice
 	title: CEO
 	team: Leadership
-	influence: enemy
+	dmu: D
+	sentiment: N
 
 Bob
 	title: CFO
 	reports -> Alice
 	team: Leadership
-	influence: supporter
+	dmu: G
+	sentiment: N
 
 Charles
 	title: CMO
 	reports -> Alice
 	team: Leadership
+	dmu: I
+	sentiment: N
 
 Dave 
 	title: Accountant 1
 	reports -> Bob
 	team: Finance
+	sentiment: N
+	dmu: G
 
 Edwina
 	title: Accountant 2
 	reports -> Bob
 	team: Finance
+	dmu: G
+	sentiment: P
 
 Fred
 	reports -> Charles
 	title: Website Maintainer
 	team: Marketing
+	sentiment: N
+	dmu: U
 
 Gerald
 	reports -> Charles
 	title: SEO Expert
 	team: Marketing
 	loves -> Fred
+	sentiment: N
+	dmu: U
 
 Harold
 	title: Software Engineer
 	reports -> Imogen
 	supports -> Fred
 	team: IT
+	sentiment: N
+	dmu: U
 
 Imogen
 	title: CTO
 	reports -> Alice
 	team: IT
-	influence: promoter
+	dmu: G
+	sentiment: O
 
 James
 	title: Support Engineer
 	supports -> Harold
 	team: IT
 	reports -> Imogen
-	influence: promoter
+	dmu: U
+	sentiment: O
