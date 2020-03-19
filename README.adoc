@@ -36,7 +36,15 @@ For more help;
 `./orgviz.py --help`
 
 
-=== Starting off with the example file
+=== Getting started with the example file
+
+Download the
+link::https://raw.githubusercontent.com/jamesread/orgviz/master/examples/ExampleCompany.org[example
+org file here] (right click on link, save as). Don't
+copy and paste the text because it might break the tabs in the file. 
+
+Edit the file using your favourite text editor, following this README guidance.
+When you're ready, run `orgviz` like this; 
 
 ----
 export ORGVIZ_INPUT=examples/ExampleCompany.org (1)
