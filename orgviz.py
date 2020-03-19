@@ -304,13 +304,8 @@ def getDsVisType(person):
 
 def getPersonLabelAsDot(person):
     ret = '<<table border = "0" cellspacing = "0">';
-<<<<<<< HEAD
     ret += '<tr><td border = "1" colspan = "2">%s</td></tr>' % person.fullName
     ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.getAttribute("title")
-=======
-    ret += '<tr><td border = "1" colspan = "2"><b>%s</b></td></tr>' % person.fullName
-    ret += '<tr><td border = "1" colspan = "2"><font point-size = "9">%s</font></td></tr>' % person.jobTitle
->>>>>>> 20517e97afac0b70b1a7d29bba986bc3c45dbb59
 
     profilePic = ""
 
@@ -320,7 +315,7 @@ def getPersonLabelAsDot(person):
         if (os.path.exists(pic)):
             logging.debug("Found LinkedIn profile: " + pic)
 
-            ret += '<tr><td colspan = "2" border = "1" width = "100"><img src = "%s" /></td></tr>' % pic
+            ret += '<tr><td colspan = "2" border = "1"><img src = "%s" /></td></tr>' % pic
         else:
             logging.warning("No profile pic found for " + pic)
 

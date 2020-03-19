@@ -91,6 +91,7 @@ Available `dmu` options;
 - **D**ecision Maker
 - **I**nfluencer
 - **G**atekeeper
+- **U**ser
 
 Available `sentiment` options;
 
@@ -116,6 +117,16 @@ Available `influence` options;
 - `supporter` - Blue
 - `promoter` - Green
 - `internal` - Black
+
+== Plain display
+
+Sometimes you don't want to show the influence type when generating the
+picture - this is useful for presentations and similar. Simply run orgviz like
+this;
+
+----
+./orgviz.py --vizType none
+----
 
 == Configuration File
 
