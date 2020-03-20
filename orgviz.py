@@ -33,7 +33,7 @@ class Person():
     def __init__(self, fullName):
         fullName = fullName.strip()
 
-        if re.fullmatch("[\w\- ]+", fullName) == None:
+        if re.fullmatch("[\w\-‘ ]+", fullName) == None:
             logging.warn("Person's name contains invalid characters: " + fullName);
 
         self.fullName = fullName
@@ -233,6 +233,7 @@ def parsePersonProperty(model, line):
 def convertHumanNameToDotNodeName(name):
     name = name.strip().replace(" ", "_")
     name = name.strip().replace("-", "")
+    name = name.strip().replace("‘", "_")
 
     return name
 
