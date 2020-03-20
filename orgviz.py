@@ -12,6 +12,7 @@ import re
 def getArgumentParser():
     parser = ArgParser(default_config_files = ["~/.orgviz.cfg"])
     parser.add_argument("--input", "-I", default = "default.org", env_var = "ORGVIZ_INPUT")
+    parser.add_argument("--output", "-O", default = os.getcwd())
     parser.add_argument("--skipDrawingLegend", "-L", action = "store_true")
     parser.add_argument("--skipDrawingTeams", action = "store_true")
     parser.add_argument("--skipDrawingTitle", action = "store_true")
@@ -429,7 +430,7 @@ def main():
 
             logging.debug("Wrote DOT file to: " + str(tmp.name));
 
-            outputImageFilename = os.getcwd() + "/orgviz." + args.outputType
+            outputImageFilename = args.output + "/orgviz." + args.outputType
             
             try: 
                 cmd = "dot -T" + args.outputType + " " + str(tmp.name) + " -o" + outputImageFilename
