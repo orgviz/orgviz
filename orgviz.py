@@ -116,8 +116,10 @@ class Person():
             rawValue = self.attributes[key]
 
             safeValue = rawValue.replace('&', '&amp;')
+            safeValue = safeValue.replace('|', ' ')
+            safeValue = safeValue.strip()
 
-            return safeValue
+            if safeValue != "": return safeValue
 
         return "??"
 
