@@ -4,6 +4,7 @@ Ideas may be discussed, purely on their merits and issues. It's important that
 contributors feel comfortable in discussion throughout the whole process. 
 
 Mechanics; 
+
 * Please fork, feature-branch, and PR. 
 * In your PR, please provide a useful description that describes why you think
   this contribution is useful, and what it changes.
