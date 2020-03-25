@@ -41,8 +41,8 @@ class Person():
         self.dotNodeName = convertHumanNameToDotNodeName(fullName)
         self.team = "??"
         self.influence = ""
-        self.dmu = "?"
-        self.sentiment = "?"
+        self.dmu = "U"
+        self.sentiment = "N"
         self.attributes = dict();
 
     def getDmuDescription(self):
@@ -85,6 +85,7 @@ class Person():
             return
 
         logging.warning("Unknown `dmu` (decision making unit) for: " + self.fullName + ", got: " + dmu + ", but should be [D]ecision Maker, [B]uyer, [I]nfluencer, [G]atekeeper, [U]ser")
+        self.dmu = "U"
 
     def setSentiment(self, newValue):
         sentiment = newValue.upper().strip()
@@ -102,6 +103,7 @@ class Person():
             return
 
         logging.warning("Unknown `sentiment` for: " + self.fullName + ", got: " + sentiment + ", but should be [P]romoter, [O]pponent or [N]eutral")
+        self.sentiment = "N"
 
     def setInfluence(self, influence):
         self.influence = influence.strip()
