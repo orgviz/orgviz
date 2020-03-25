@@ -122,7 +122,7 @@ class Person():
 
             if safeValue != "": return safeValue
 
-        return "??"
+        return "Unknown: " + key
 
     def setAttribute(self, k, v):
         self.attributes[k] = v
@@ -410,7 +410,7 @@ def getModelAsDot(model):
     for edge in model.edges:
         if isPersonExcluded(model.findPerson(edge['origin'])) or isPersonExcluded(model.findPerson(edge['destination'])): continue
 
-        out += ('%s -> %s [label="%s", %s]' % (edge['origin'], model.findPerson(edge['destination']).fullName, edge['type'], getEdgeDotStyle(edge))) + "\n"
+        out += ('%s -> %s [label="%s", %s]' % (edge['origin'], model.findPerson(edge['destination']).dotNodeName, edge['type'], getEdgeDotStyle(edge))) + "\n"
 
     out += getLegendAsDot()
     out += "}"
