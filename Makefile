@@ -6,4 +6,8 @@ docs:
 	mv orgviz.png docs/ExampleCompany.png 
 	asciidoctor README.adoc
 
-.PHONY: docs default
+tests: test
+test:
+	pytest
+
+.PHONY: docs default test 
