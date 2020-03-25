@@ -133,6 +133,12 @@ class Model():
         self.edges = []
         self.teams = set()
 
+    def findPerson(self, name):
+        for person in self.people.values():
+            if person.getAttribute('id') == name:
+                return person
+        return self.getPersonByName(name)
+
     def getPersonByName(self, personFullName):
         if personFullName in self.people:
             return self.people[personFullName]
@@ -401,9 +407,9 @@ def getModelAsDot(model):
         out += ("%s [margin=0, border=invisible, label=%s,%s]\n") % (person.dotNodeName, getPersonLabelAsDot(person), getInfluenceStyleAsDot(person.influence))
 
     for edge in model.edges:
-        if isPersonExcluded(model.getPersonByName(edge['origin'])) or isPersonExcluded(model.getPersonByName(edge['destination'])): continue
+        if isPersonExcluded(model.findPerson(edge['origin'])) or isPersonExcluded(model.findPerson(edge['destination'])): continue
 
-        out += ('%s -> %s [label="%s", %s]' % (edge['origin'], edge['destination'], edge['type'], getEdgeDotStyle(edge))) + "\n"
+        out += ('%s -> %s [label="%s", %s]' % (edge['origin'], model.findPerson(edge['destination']).fullName, edge['type'], getEdgeDotStyle(edge))) + "\n"
 
     out += getLegendAsDot()
     out += "}"

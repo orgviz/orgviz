@@ -5,10 +5,11 @@ Alice
 	team: Leadership
 	dmu: D
 	sentiment: N
+	id: ali
 
 Böb
 	title: CFO
-	reports -> Alice
+	reports -> ali
 	team: Leadership
 	dmu: G
 	sentiment: N
