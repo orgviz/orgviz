@@ -26,6 +26,12 @@ The following python3 libraries are also required;
 
 - `python3-configargparse` (note, not just `argparse`)
 
+=== Test
+
+In case you want to be able to run the tests as well, the following python3 libraries are required:
+
+- `pytest`
+
 == Usage
 
 To run orgviz against an input file and generate an image;
@@ -35,7 +41,6 @@ To run orgviz against an input file and generate an image;
 For more help; 
 
 `./orgviz.py --help`
-
 
 === Getting started with the example file
 
@@ -56,6 +61,12 @@ xdg-open orgviz.svg (3)
 
 NOTE: Most image viewers support "refresh", so you can edit in one text editor
 window, and then "refresh" the currently open image just by pressing F5.
+
+== Run tests
+
+To run the tests, you need to run:
+
+`make test`
 
 == Organization (Input) file syntax
 
