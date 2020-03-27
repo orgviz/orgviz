@@ -1,0 +1,61 @@
+body {
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #efefef;
+}
+
+h1 {
+	font-family: "Overpass", sans-serif;
+	margin: 0;
+}
+
+h2 {
+	font-family: "Overpass", sans-serif;
+	margin: 0;
+}
+
+header {
+	background-color: #444;
+	color: white;
+	padding: .3em;
+}
+
+textarea {
+	width: 100%;
+	height: 800;
+	border: 1px solid black;
+	margin: 0;
+}
+
+main {
+	display: flex;
+	padding: .5em;
+}
+
+.view {
+	border: 1px solid gray;
+	background-color: white;
+	padding: 1em;
+	flex-grow: 1;
+}
+
+.view:hover {
+	border: 1px solid black;
+}
+
+div#editToolbar {
+	background-color: #eee;
+	border: 1px solid black;
+	border-top: 0;
+	padding: .4em;
+}
+
+div#editToolbar span {
+	padding: .2em;
+	margin: .2em;
+}
+
+div#editToolbar * {
+	vertical-align: middle;
+}

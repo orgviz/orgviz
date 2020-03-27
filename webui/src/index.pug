@@ -1,0 +1,26 @@
+html
+	head
+		link(rel = "stylesheet" type = "text/css" href = "style.css")
+
+		script(src = "main.js") 
+	body
+		header 
+			h1 orgviz
+
+		main
+			div#inputView.view
+				h2 Input 
+
+				textarea
+
+				div#editToolbar 
+					span 
+						button Update
+					span Auto Update
+						input#autoUpdate(type="checkbox")
+
+			div#imageView.view
+				h2 Result 
+
+				img
+
