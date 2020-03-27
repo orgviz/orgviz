@@ -21,12 +21,23 @@ If using this tool from source, the following packages are required;
 
 - GraphViz's `dot` - you can get this from `yum install graphviz` on most Linux distributions.
 - `python3`
+- `npm` (only required for Web UI)
+- `parcel` (only required for Web UI - usually you can install it with `npm install parcel`)
 
 The following python3 libraries are also required; 
 
 - `python3-configargparse` (note, not just `argparse`)
+- `python3-cherrypy` (only required for Web UI)
 
-== Usage
+== Build (only required for Web UI)
+
+To build the JavaScript side, execute:
+
+- `pushd webui/`
+- `make`
+- `popd`
+
+== Usage (CLI)
 
 To run orgviz against an input file and generate an image;
 
@@ -56,6 +67,14 @@ xdg-open orgviz.svg (3)
 
 NOTE: Most image viewers support "refresh", so you can edit in one text editor
 window, and then "refresh" the currently open image just by pressing F5.
+
+== Usage (Web UI)
+
+To execute the Web UI you just need to execute:
+
+`./web.py`
+
+You can now open your browser and point it to `http://0.0.0.0:8081/webui/`
 
 == Organization (Input) file syntax
 

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "parceljs": "0.0.1"
   },
