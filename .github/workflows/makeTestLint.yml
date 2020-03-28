@@ -11,6 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: install coverage
+        run: sudo apt-get install python-coverage
+
       - name: make tests
         run: make tests
 
