@@ -15,7 +15,7 @@ jobs:
         run: sudo apt-get install python-coverage
 
       - name: make tests
-        run: make tests
+        run: make tests-debian
 
       - name: make lint
         run: make lint

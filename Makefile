@@ -12,6 +12,11 @@ test:
 	coverage report
 	coverage html
 
+tests-debian:
+	python-coverage run --branch --source orgviz -m pytest
+	python-coverage report
+	pyrgon-coverage html
+
 lint:
 	pylint-3 orgviz
 
