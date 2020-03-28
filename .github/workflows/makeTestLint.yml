@@ -9,7 +9,7 @@ jobs:
     name: Make Tests and Lint
     steps:
       - name: Checkout
-        uses: actions/checkout@2
+        uses: actions/checkout@v2
 
       - name: make tests
         run: make tests
