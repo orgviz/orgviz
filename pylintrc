@@ -63,6 +63,8 @@ confidence=
 disable=missing-function-docstring,
 		trailing-whitespace,
 		line-too-long,
+		missing-docstring,
+		len-as-condition,
 		trailing-newlines
 
 # Enable the message, report, category or checker with the given id(s). You can
