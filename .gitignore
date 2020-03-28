@@ -4,3 +4,6 @@
 **/*.jpeg
 **/*.svg
 __pycache__
+htmlcov
+.coverage
+README.html

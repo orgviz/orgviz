@@ -1,12 +1,43 @@
+= Contributions
+
 Contributions are very welcome - code, docs, whatever they might be!
 
 Ideas may be discussed, purely on their merits and issues. It's important that
 contributors feel comfortable in discussion throughout the whole process. 
 
-Mechanics; 
+== Development environment setup
+
+=== orgviz "module"
+
+orgviz is a simple command line application, started with ./orgviz.py, which
+loads it's module dependencies from the `orgviz` directory.
+
+* All the meaty code lives in the `orgviz` directory.
+* You will need the runtime dependencies of orgviz (configargparse, GraphViz,
+  etc, see README for more info).
+* `make docs` is a good test that covers a lot of orgviz code paths. 
+
+=== Web interface
+
+* `web.py` is a python CherryPy webserver (https://cherrypy.org/).
+* `webui` is a ParcelJS (https://parceljs.org/) PWA (https://en.wikipedia.org/wiki/Progressive_web_application). 
+* The `parcel` command is installed via NPM - there is a `package.json` file in the `webui` directory.
+* There is a makefile - `webui/Makefile` that will run parcel for you.
+* "compiled" HTML+etc are put into `webui/dist` and served by `web.py`.
+* The webui is controlled mostly by `webui/src/main.js`
+
+== Mechanics of submitting a change
 
 * Please fork, feature-branch, and PR. 
-* In your PR, please provide a useful description that describes why you think
+* In your PR, please provide a brief, but meaningful description that describes why you think
   this contribution is useful, and what it changes.
 
 Thanks so much for your time! :-) 
+
+== Testing your changes
+
+Before you PR, please run these checks locally;
+
+* `make test` should run cleanly.
+* `make lint` should run cleanly, avoid adding pylint ignores.
+* `make docs` should run cleanly, with docs/ExampleCompany.png looking good.

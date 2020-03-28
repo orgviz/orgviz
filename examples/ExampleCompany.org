@@ -62,8 +62,8 @@ Imogen
 	title: CTO
 	reports -> Alice
 	team: IT
-	dmu: G
-	sentiment: O
+	dmu: B
+	sentiment: N
 
 James
 	title: Support Engineer
