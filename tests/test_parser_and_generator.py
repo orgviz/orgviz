@@ -6,7 +6,7 @@ from orgviz.modelParser import parseModel
 
 class ParserTestCase(unittest.TestCase):
     def readOrgFile(self, filename):
-        f = open(filename, 'r')
+        f = open(filename, 'r', encoding='utf8')
         contents = f.read()
         f.close()
 

@@ -13,11 +13,14 @@ test:
 	coverage html
 
 tests-debian:
-	python-coverage run --branch --source orgviz -m pytest
-	python-coverage report
-	pyrgon-coverage html
+	python3-coverage run --branch --source orgviz -m pytest
+	python3-coverage report
+	python3-coverage html
 
 lint:
 	pylint-3 orgviz
+
+lint-debian:
+	pylint3 orgviz
 
 .PHONY: docs default test 

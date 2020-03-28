@@ -40,7 +40,7 @@ def getFileContents():
     logging.info("Reading org file: " + args.input)
 
     try: 
-        f = open(args.input, 'r');
+        f = open(args.input, 'r', encoding='utf8');
 
         contents = f.read();
 
