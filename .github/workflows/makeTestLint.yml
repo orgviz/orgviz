@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: install coverage
-        run: sudo apt-get install python-coverage
+        run: sudo apt-get install python-coverage python3-pytest
 
       - name: make tests
         run: make tests-debian
