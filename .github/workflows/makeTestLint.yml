@@ -1,0 +1,18 @@
+---
+name: make tests and lint
+
+on: [push, pull_request]
+
+jobs:
+  makeTestsLint:
+    runs-on: ubuntu-latest
+    name: Make Tests and Lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@2
+
+      - name: make tests
+        run: make tests
+
+      - name: make lint
+        run: make lint
