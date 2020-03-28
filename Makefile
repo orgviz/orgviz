@@ -8,6 +8,11 @@ docs:
 
 tests: test
 test:
-	pytest
+	coverage run --branch --source orgviz -m pytest
+	coverage report
+	coverage html
+
+lint:
+	pylint-3 orgviz
 
 .PHONY: docs default test 

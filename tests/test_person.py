@@ -1,13 +1,13 @@
 import pytest
-import orgviz
+from orgviz.person import Person
 
 def test_name():
-    p = orgviz.Person("Alice")
+    p = Person("Alice")
 
     assert p.fullName == "Alice"
 
-def test_dmu_values():
-    p = orgviz.Person("Alice")
+def test_dmu_descriptions():
+    p = Person("Alice")
     assert p.getDmuDescription() == "User"
 
     p.setDmu("D")
@@ -16,8 +16,16 @@ def test_dmu_values():
     p.setDmu("Waffles")
     assert p.getDmuDescription() == "User"
 
-def test_sentiment_values():
-    p = orgviz.Person("Bob")
+    p.setDmu("d")
+    assert p.getDmuDescription() == "Decision Maker"
+
+def test_sentiment_set():
+    p = Person("Geoffrey")
+
+    p.setSentiment("P")
+
+def test_sentiment_descriptions():
+    p = Person("Bob")
     assert p.getSentimentDescription() == "Neutral"
 
     p.setSentiment("PROPONENT")
