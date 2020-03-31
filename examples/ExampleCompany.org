@@ -1,3 +1,18 @@
+# Tag Options:
+# Full Name
+#	title: Job Title
+#	id: ShortName
+#	team: Team Name
+#	country: Country Name
+#	supports -> Full Name	
+#	reports -> Full Name
+#	dmu: <U,I,G,B,D>
+#	sentiment: <P,N,O>
+#
+# Note:
+# dmu: <User, Influencer, Gatekeeper, Buyer, Decision Maker>
+# sentiment: <Proponant, Neutral, Opponent>
+
 @title: Example Company
 
 Alice
