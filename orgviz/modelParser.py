@@ -9,7 +9,7 @@ def parseModel(contents):
     model = Model()
 
     for line in contents.split("\n"):
-        if line == "": 
+        if line == "" or line.startswith('#'): 
             continue
 
         if line.startswith("@") and ":" in line:
