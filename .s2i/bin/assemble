@@ -2,4 +2,4 @@
 
 echo "Installing Graphviz"
 
-yum install graphviz -y 
+sudo yum install graphviz -y 
