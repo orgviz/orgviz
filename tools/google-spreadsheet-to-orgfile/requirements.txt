@@ -1,2 +1,4 @@
 google-auth-httplib2
 CherryPy
+configargparse
+httplib2
