@@ -3,3 +3,4 @@ CherryPy
 configargparse
 httplib2
 oauth2client
+googleapiclient
