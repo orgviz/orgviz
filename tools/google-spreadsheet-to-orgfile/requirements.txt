@@ -1,0 +1,2 @@
+google-auth-httplib2
+CherryPy
