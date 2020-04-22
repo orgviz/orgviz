@@ -8,10 +8,11 @@ import os
 import logging
 import sys
 
-from lib import generateDot
+from lib import generateDot, getSheetsApi, setCredentialsJson
 
-parser = configargparse.ArgumentParser(default_config_files = ["~/.orgviz-spreadsheet-reader-web.cfg"])
+parser = configargparse.ArgumentParser(default_config_files = ["~/.spreadsheet-reader-web.cfg"])
 parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.", env_var = "LOGGING")
+parser.add_argument("--credentialsJson", default = '/opt/spreadsheet-reader-credentials.json', env_var = 'CREDENTIALS_JSON')
 parser.add_argument('--port', default = 8081, type = int, env_var = "PORT");
 args = parser.parse_args();
 
@@ -42,6 +43,10 @@ logging.getLogger().setLevel(args.logging)
 logging.basicConfig(format = "[%(levelname)s] %(message)s ")
 
 config = {}
+
+
+setCredentialsJson(args.credentialsJson)
+getSheetsApi()
 
 cherrypy.quickstart(FrontendWrapper(), '/', config)
 

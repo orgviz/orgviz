@@ -12,6 +12,8 @@ from google.auth.transport.requests import Request
 
 credentialsJson = "???"
 
+sheetsApi = None
+
 def setCredentialsJson(c):
     global credentialsJson 
     credentialsJson = c
@@ -37,7 +39,7 @@ def run_flow(flow, store):
 
 def get_login_code():
     while not os.path.exists("/tmp/login_code"):
-        print("Waiting for login code file")
+        print("Waiting for login code via file: /tmp/login_code ")
         sleep(10)
 
     print("Login code file found")
@@ -68,7 +70,12 @@ def getCreds():
     return creds
 
 def getSheetsApi():
-    return build('sheets', 'v4', credentials=getCreds()).spreadsheets();
+    global sheetsApi
+    
+    if sheetsApi == None:
+        sheetsApi = build('sheets', 'v4', credentials=getCreds()).spreadsheets();
+
+    return sheetsApi
 
 def spreadsheetQuery(sheets, cellReference, spreadsheetId):
     return sheets.values().get(spreadsheetId=spreadsheetId, range=cellReference).execute().get('values', [])
