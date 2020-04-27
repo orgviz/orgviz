@@ -5,6 +5,8 @@ import cherrypy
 import configargparse
 import os
 
+from time import sleep
+
 import logging
 import sys
 
@@ -40,8 +42,8 @@ def setupCredentialsJson():
     # instead if hard-fail-fast.
 
     while not os.path.exists(args.credentialsJson):
-        logging.info("Credentials does not exist, expected it here: " + args.credentialsJson)
-        sleep(3)
+        logging.info("Credentials file does not exist, expected it here: " + args.credentialsJson)
+        sleep(10)
 
     logging.info("Found credentials file: " + args.credentialsJson)
 
