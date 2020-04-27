@@ -1,6 +1,9 @@
 :sectnums:
 :title: orgviz 
 :sectanchors:
+
+Join the link:https://t.me/joinchat/BqSGNBqlDufb5yuvsV1Xgw[orgviz community telegram chat] for user questions, comments, or development gossip.
+
 :toc:
 
 = orgviz 
