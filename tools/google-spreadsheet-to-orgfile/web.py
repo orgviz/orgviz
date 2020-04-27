@@ -24,7 +24,7 @@ class FrontendWrapper:
     def index(self):
         ret = "";
         ret += '<h1>orgviz Spreadsheet Reader Web Service</h1>'
-        ret += '<li>GET <a href = "/generateFromSheet/spreadsheetId"><tt>/generateFromSheet/spreadsheetId</tt></a></li>'
+        ret += '<li>GET <a href = "/generateFromSheet/spreadsheetId"><tt>/generateFromSheet/<strong>yourSpreadsheetId</strong></tt></a></li>'
 
 
         return ret
