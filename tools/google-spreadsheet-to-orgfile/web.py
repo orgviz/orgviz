@@ -10,21 +10,26 @@ from time import sleep
 import logging
 import sys
 
-from lib import generateDot, getSheetsApi, setCredentialsJson
+from lib import generateDot, getSheetsApi, setCredentialsJson, setCookieFilename
 
 parser = configargparse.ArgumentParser(default_config_files = ["~/.spreadsheet-reader-web.cfg"])
 parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.", env_var = "LOGGING")
 parser.add_argument("--credentialsJson", default = '/etc/orgviz/spreadsheet-reader-credentials.json', env_var = 'CREDENTIALS_JSON')
+parser.add_argument("--cookieFilename", default = '/etc/orgviz-cookie/cookie', env_var = 'COOKIE_FILENAME')
 parser.add_argument('--port', default = 8081, type = int, env_var = "PORT");
 args = parser.parse_args();
 
 class FrontendWrapper:
     @cherrypy.expose
     def index(self):
-        return '<h1>orgviz Spreadsheet Reader</h1>'
+        ret = "";
+        ret += '<h1>orgviz Spreadsheet Reader</h1>'
+        ret += '<li><tt>/generateFromSheet</tt></li>'
+
+        return ret
 
     @cherrypy.expose
-    def generateDot(self, spreadsheetId="none"):
+    def generateFromSheet(self, spreadsheetId="none"):
         try:
             cherrypy.response.headers['Content-Type'] = 'text/plain'
 
@@ -65,6 +70,7 @@ logging.basicConfig(format = "[%(levelname)s] %(message)s ")
 
 config = {}
 
+setCookieFilename(args.cookieFilename)
 setupCredentialsJson()
 
 cherrypy.quickstart(FrontendWrapper(), '/', config)

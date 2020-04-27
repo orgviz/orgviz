@@ -7,4 +7,6 @@ COPY *.py /opt/
 
 USER 1001
 
+VOLUME [ "/etc/orgviz-cookie", "/etc/orgviz/" ]
+
 ENTRYPOINT /opt/web.py

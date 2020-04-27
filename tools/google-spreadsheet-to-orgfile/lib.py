@@ -3,6 +3,7 @@
 import pickle
 import sys
 import os.path
+import logging
 from time import sleep
 from oauth2client import client
 from oauth2client.file import Storage
@@ -11,12 +12,21 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 credentialsJson = "???"
+cookieFilename = "/tmp/spreadsheet-reader.cookie"
 
 sheetsApi = None
 
 def setCredentialsJson(c):
     global credentialsJson 
     credentialsJson = c
+
+def setCookieFilename(newValue):
+    global cookieFilename 
+
+    if newValue is not None: 
+        cookieFilename = newValue
+    
+        logging.info("setCookieFilename: " + cookieFilename)
 
 def run_flow(flow, store):
     flow.redirect_uri = client.OOB_CALLBACK_URN
@@ -55,7 +65,9 @@ def getCreds():
     # The cookieFilename stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    cookieFilename = os.path.abspath('/tmp/spreadsheet-reader.cookie')
+    global cookieFilename
+
+    logging.info("Cookie filename: " + cookieFilename)
 
     store = Storage(cookieFilename)
     creds = store.get()
