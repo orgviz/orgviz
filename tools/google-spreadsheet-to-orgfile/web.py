@@ -23,8 +23,9 @@ class FrontendWrapper:
     @cherrypy.expose
     def index(self):
         ret = "";
-        ret += '<h1>orgviz Spreadsheet Reader</h1>'
-        ret += '<li><tt>/generateFromSheet</tt></li>'
+        ret += '<h1>orgviz Spreadsheet Reader Web Service</h1>'
+        ret += '<li>GET <a href = "/generateFromSheet/spreadsheetId"><tt>/generateFromSheet/spreadsheetId</tt></a></li>'
+
 
         return ret
 
