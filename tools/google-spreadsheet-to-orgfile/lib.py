@@ -38,6 +38,10 @@ def run_flow(flow, store):
     return credential
 
 def get_login_code():
+    # Design choice: sleep-wait for the file, as when this script is run as a
+    # service/container, etc, it allows an administrator to enter a login code
+    # rather than crashing due to no TTY being available.
+
     while not os.path.exists("/tmp/login_code"):
         print("Waiting for login code via file: /tmp/login_code ")
         sleep(10)
