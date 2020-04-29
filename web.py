@@ -18,8 +18,9 @@ from orgviz.graphviz import runDot
 parser = configargparse.ArgumentParser(default_config_files = ["~/.orgviz-web.cfg"])
 parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.")
 parser.add_argument('--port', default = 8081, type = int);
-parser.add_argument('--outputDirectoryLocal', default = "/var/www/html/orgvizOutput/");
-parser.add_argument('--outputDirectoryPublic', default = "http://localhost:8081/output/");
+parser.add_argument('--outputDirectoryLocal', default = "/var/www/html/orgvizOutput/", env_var = "OUTPUT_DIRECTORY_LOCAL");
+parser.add_argument('--outputDirectoryPublic', default = "http://localhost:8081/output/", env_var = "OUTPUT_DIRECTORY_PUBLIC");
+parser.add_argument('--webroot', default = "webui/dist/", env_var = "WEBROOT");
 args = parser.parse_args();
 
 class FrontendWrapper:
@@ -75,7 +76,7 @@ cherrypy.config.update({
 config = {
     '/webui': {
     'tools.staticdir.on': True,
-    'tools.staticdir.dir': 'webui/dist/',
+    'tools.staticdir.dir': args.webroot,
     'tools.staticdir.root': os.path.abspath(os.getcwd()),
     'tools.staticdir.index': 'index.html'
     },
