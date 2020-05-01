@@ -6,6 +6,9 @@ on: [push, pull_request]
 jobs:
   makeTestsLint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        python-version: [ 3.7 ]
     name: Make Tests and Lint
     steps:
       - name: Checkout
