@@ -87,20 +87,30 @@ function setResult(message) {
 	}
 }
 
+function changeView(config) {
+	console.log("Changing view", config)
+
+	switch (config.serverMode) {
+		case 'webservice':
+			document.querySelector("div#inputView").remove()
+
+			document.querySelector("#webserviceTitle").innerHTML = config.webserviceName
+			document.querySelector("#webserviceKeyName").innerHTML = config.webserviceKeyName + ': '
+
+			document.querySelector("main").style.flexDirection = "column"
+			document.querySelector("#webserviceView").style.flexGrow = 0
+			document.querySelector("#imageView").style.flexGrow = 1
+			break;
+		default:
+			document.querySelector('div#webserviceView').remove()
+			break;
+	}
+}
+
 function recvServerConfig(config) {
 	console.log("server config: ", config) 
 
-	if (config.serverMode == "webservice") {
-		document.querySelector("div#inputView").remove()
-
-		document.querySelector("main").style.flexDirection = "column"
-		document.querySelector("#webserviceView").style.flexGrow = 0
-		document.querySelector("#imageView").style.flexGrow = 1
-	}
-
-	document.querySelector("#webserviceTitle").innerHTML = config.webserviceName
-	document.querySelector("#webserviceKeyName").innerHTML = config.webserviceKeyName
-
+	changeView(config)
 }
 
 function getServerConfig() {

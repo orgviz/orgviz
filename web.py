@@ -21,7 +21,7 @@ parser.add_argument("--logging", type = int, default = 20, help = "1 = Everythin
 parser.add_argument('--port', default = 8081, type = int, env_var = "PORT");
 parser.add_argument('--outputDirectoryLocal', default = "/var/www/html/orgvizOutput/", env_var = "OUTPUT_DIRECTORY_LOCAL");
 parser.add_argument('--outputDirectoryPublic', default = "http://localhost:8081/output/", env_var = "OUTPUT_DIRECTORY_PUBLIC");
-parser.add_argument('--serverMode', default = 'directInput', choices = ['directInput', 'webservice'], env_var = "OUTPUT_DIRECTORY_PUBLIC");
+parser.add_argument('--serverMode', default = 'directInput', choices = ['directInput', 'webservice'], env_var = "SERVER_MODE");
 parser.add_argument('--webserviceUrl', default = 'http://localhost', env_var = "WEBSERVICE_URL");
 parser.add_argument('--webserviceName', default = 'From Webservice', env_var = "WEBSERVICE_NAME");
 parser.add_argument('--webserviceKeyName', default = 'Key', env_var = "WEBSERVICE_KEY_NAME");
