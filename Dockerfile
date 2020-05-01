@@ -1,6 +1,6 @@
 FROM fedora
 
-RUN yum install -y python3-cherrypy python3-configargparse npm make graphviz && yum clean all
+RUN yum install -y python3-cherrypy python3-configargparse python3-requests npm make graphviz && yum clean all
 
 COPY . /opt/ 
 
