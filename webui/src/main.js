@@ -90,7 +90,7 @@ function setResult(message) {
 function recvServerConfig(config) {
 	console.log("server config: ", config) 
 
-	if (config.serverMode == "directInput") {
+	if (config.serverMode == "webservice") {
 		document.querySelector("div#inputView").remove()
 
 		document.querySelector("main").style.flexDirection = "column"
