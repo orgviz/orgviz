@@ -19,6 +19,22 @@ function sendOrgContentRequest() {
 	});
 }
 
+function sendWebservice() {
+	console.log("Sending webservice")
+
+	fetch(window.serverUrl + "createImageFromWebservice", {
+		method: "POST",
+		mode: "cors"
+	}).then(res => {
+		return res.json()
+	}).then(json => {
+		recvOrgContentResult(json)
+	}).catch(e => {
+		console.log("Fetch error", e)
+		setResult("ERROR: " + e)
+	});
+}
+
 function recvOrgContentResult(json) {
 	if (json.errors.length == 0) {
 		showRenderedFilename(json.filename);
@@ -71,11 +87,45 @@ function setResult(message) {
 	}
 }
 
+function recvServerConfig(config) {
+	console.log("server config: ", config) 
+
+	if (config.serverMode == "directInput") {
+		document.querySelector("div#inputView").remove()
+
+		document.querySelector("main").style.flexDirection = "column"
+		document.querySelector("#webserviceView").style.flexGrow = 0
+		document.querySelector("#imageView").style.flexGrow = 1
+	}
+
+	document.querySelector("#webserviceTitle").innerHTML = config.webserviceName
+	document.querySelector("#webserviceKeyName").innerHTML = config.webserviceKeyName
+
+}
+
+function getServerConfig() {
+	fetch(window.serverUrl + "clientConfig", {
+		method: "POST",
+		mode: "cors",
+	}).then(res => {
+		return res.json();
+	}).then(json => {
+		recvServerConfig(json) 
+	}).catch(e => {
+		console.log("Fetch error", e)
+		setResult("ERROR: " + e)
+	});
+}
+
 window.initOrgviz = function() {
 	document.querySelector('button#sendFile').onclick = sendOrgContentRequest
 	document.querySelector('textarea').onkeydown = codeEditKeyDown
 
-	window.serverUrl = "http://localhost:8081/"
+	document.querySelector('button#sendWebservice').onclick = sendWebservice
+
+	window.serverUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" 
+
+	getServerConfig();
 
 	setResult('Nothing to see here yet!');
 }

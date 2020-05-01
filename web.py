@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import cherrypy
+import requests
 
 import configargparse
 import os
@@ -16,11 +17,14 @@ from orgviz.modelParser import parseModel
 from orgviz.graphviz import runDot
 
 parser = configargparse.ArgumentParser(default_config_files = ["~/.orgviz-web.cfg"])
-parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.")
-parser.add_argument('--port', default = 8081, type = int);
+parser.add_argument("--logging", type = int, default = 20, help = "1 = Everything. 50 = Critical only.", env_var = "LOGGING")
+parser.add_argument('--port', default = 8081, type = int, env_var = "PORT");
 parser.add_argument('--outputDirectoryLocal', default = "/var/www/html/orgvizOutput/", env_var = "OUTPUT_DIRECTORY_LOCAL");
 parser.add_argument('--outputDirectoryPublic', default = "http://localhost:8081/output/", env_var = "OUTPUT_DIRECTORY_PUBLIC");
-parser.add_argument('--webroot', default = "webui/dist/", env_var = "WEBROOT");
+parser.add_argument('--serverMode', default = 'directInput', choices = ['directInput', 'webservice'], env_var = "OUTPUT_DIRECTORY_PUBLIC");
+parser.add_argument('--webserviceUrl', default = 'http://localhost', env_var = "WEBSERVICE_URL");
+parser.add_argument('--webserviceName', default = 'From Webservice', env_var = "WEBSERVICE_NAME");
+parser.add_argument('--webserviceKeyName', default = 'Key', env_var = "WEBSERVICE_KEY_NAME");
 args = parser.parse_args();
 
 class FrontendWrapper:
@@ -46,25 +50,71 @@ class FrontendWrapper:
             mdl = parseModel(body)
             body = conv.getModelAsDot(mdl)
 
-            f = open("/tmp/orgfile", "w")
-            f.write(body);
-            f.close()
+            dotOutput = self.orgStringToDot(body, errors)
 
-            dotOutput = runDot("/tmp/orgfile", args.outputDirectoryLocal + "/orgviz.png")
+            return self.dotReturn(dotOutput, errors)
 
 
-        if dotOutput and len(errors) == 0:
-            print("Dot ran okay")
+    def dotReturn(self, dotResult, errors):
+        if len(errors) != 0:
+            return {
+                "errors": errors,
+                "filename": None
+            }
+
+        if dotResult:
+            logging.info("Dot ran okay")
 
             return {
                 "errors": list(),
                 "filename": args.outputDirectoryPublic + "orgviz.png" 
             }
         else:
+            logging.info("Dot failure: " + str(errors))
+
+            errors.append("Dot failure")
+            
             return {
                 "errors": errors,
                 "filename": None
             }
+
+
+    def orgStringToDot(self, body, errors):
+        f = open("/tmp/orgfile", "w")
+        f.write(body);
+        f.close()
+
+        dotOutput, error = runDot("/tmp/orgfile", args.outputDirectoryLocal + "/orgviz.png")
+
+        if error != None:
+            logging.info("Adding Dot error to list")
+
+            errors.append(error)
+
+        return dotOutput
+
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def createImageFromWebservice(self, key = "notset"):
+        params = { "spreadsheetId": key }
+        r = requests.get(url = args.webserviceUrl, params = params)
+
+        errors = list()
+        dotOutput = self.orgStringToDot(r.content.decode('utf-8'), errors)
+
+        return self.dotReturn(dotOutput, errors)
+
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def clientConfig(self):
+        return {
+            "serverMode": args.serverMode,
+            "webserviceName": args.webserviceName,
+            "webserviceKeyName": args.webserviceKeyName,
+        }
 
 
 cherrypy.config.update({
@@ -76,8 +126,8 @@ cherrypy.config.update({
 config = {
     '/webui': {
     'tools.staticdir.on': True,
-    'tools.staticdir.dir': args.webroot,
-    'tools.staticdir.root': os.path.abspath(os.getcwd()),
+    'tools.staticdir.dir': 'webui/dist',
+    'tools.staticdir.root': os.path.dirname(os.path.realpath(__file__)),
     'tools.staticdir.index': 'index.html'
     },
     '/output': {

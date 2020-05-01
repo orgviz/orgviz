@@ -12,16 +12,24 @@ def runDot(graphvizFilename, outputImageFilename, imageType="png"):
 
         logging.debug("Running dot like this: %s", cmd)
 
-        output = subprocess.run(cmd.split(" "), shell=False, stderr=True, stdout=True, check=False)
+        output = subprocess.run(cmd.split(" "), shell=False, capture_output = True, check=False)
+
+        stderr = output.stderr.decode('utf-8')
+        stdout = output.stdout.decode('utf-8')
+
+        logging.info("stderr: " + stderr)
+        logging.info("stdout: " + stdout)
 
         if output.returncode == 0:
             logging.info("Completed sucessfully, rendered: %s", outputImageFilename)
 
-            return True
+            return True, None
 
         logging.error("dot output: %s", str(output))
     except FileNotFoundError: 
         logging.error("FileNotFoundError. Is the GraphViz's `dot` command installed on your computer? ")
 
-    return False
+        return False, "File not found"
+
+    return False, stderr
 
