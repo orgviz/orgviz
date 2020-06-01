@@ -144,6 +144,7 @@ def generateDot(spreadsheetId):
 
         ret += name + "\n"
         ret += tryPrintKey(person, "title", columnIndexes)
+        ret += tryPrintKey(person, "team", columnIndexes)
         ret += tryPrintKey(person, "dmu", columnIndexes)
         ret += tryPrintKey(person, "sentiment", columnIndexes)
         ret += tryPrintKey(person, "reports", columnIndexes, " ->")
