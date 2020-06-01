@@ -121,3 +121,13 @@ div#titleAndLink a {
 	font-size: smaller;
 	text-decoration: none;
 }
+
+p.warning {
+	color: orange;
+}
+
+.error {
+	background-color: salmon;
+	color: black;
+	padding: 1em;
+}

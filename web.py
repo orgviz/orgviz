@@ -97,12 +97,37 @@ class FrontendWrapper:
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
-    def createImageFromWebservice(self, key = "notset"):
-        params = { "spreadsheetId": key }
-        r = requests.get(url = args.webserviceUrl, params = params)
+    def createImageFromWebservice(self):
+        key = cherrypy.request.body.read().decode('utf-8')
+
+        logging.info("createImageFromWebservice, Key is " + key) 
+        logging.info("createImageFromWebservice, Webservice Base URL is " + args.webserviceUrl) 
+
+        url = args.webserviceUrl + "/" + key 
+
+        logging.info("createImageFromWebservice, Webservice Full URL is " + url)
+
+        r = requests.get(url = url, timeout = 30)
+        
+        logging.info("createImageFromWebservice, HTTP res is " + str(r.status_code)) 
 
         errors = list()
-        dotOutput = self.orgStringToDot(r.content.decode('utf-8'), errors)
+
+        if (r.status_code == 200):
+            orgFileFromWebservice = r.content.decode('utf-8')
+
+            opts = ModelOptions()
+            opts.skipDrawingLegend = True
+            opts.skipDrawingTitle = True
+
+            conv = ModelToGraphVizConverter(opts=opts)
+            mdl = parseModel(orgFileFromWebservice)
+            body = conv.getModelAsDot(mdl)
+
+            dotOutput = self.orgStringToDot(body, errors)
+        else:
+            errors.append("Upstream status code is: " + str(r.status_code))
+            dotOutput = ""
 
         return self.dotReturn(dotOutput, errors)
 

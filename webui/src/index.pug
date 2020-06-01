@@ -19,9 +19,14 @@ html
 				h2#webserviceTitle From webservice
 
 				span#webserviceKeyName
-				input 
+				input#webserviceKey
 
 				button#sendWebservice Update
+				span#waitMessage(hidden) Please wait...
+
+				p 
+					strong Note:
+					The web UI does not support any sort of filtering at the moment.
 
 			div#inputView.view
 				div#titleAndLink
@@ -51,7 +56,7 @@ html
 						span 
 							button#sendFile Update
 
-				p(style="color: orange") 
+				p.warning
 					strong WARNING: 
 					span Changes are not saved! Keep your org file locally!
 

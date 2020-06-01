@@ -15,23 +15,35 @@ function sendOrgContentRequest() {
 		recvOrgContentResult(json) 
 	}).catch(e => {
 		console.log("Fetch error", e)
-		setResult("ERROR: " + e)
+		setResultError("ERROR: " + e)
 	});
 }
 
 function sendWebservice() {
 	console.log("Sending webservice")
 
+	var btn = document.querySelector('button#sendWebservice')
+	var wait = document.querySelector('#waitMessage')
+	setResult("Please wait...")
+
+	btn.disabled = true;
+	wait.hidden = false;
+
 	fetch(window.serverUrl + "createImageFromWebservice", {
 		method: "POST",
-		mode: "cors"
+		mode: "cors", 
+		cache: "no-cache",
+		body: document.querySelector('#webserviceKey').value,
 	}).then(res => {
+		btn.disabled = false;
+		wait.hidden = true;
+
 		return res.json()
 	}).then(json => {
 		recvOrgContentResult(json)
 	}).catch(e => {
 		console.log("Fetch error", e)
-		setResult("ERROR: " + e)
+		setResultError("ERROR: " + e)
 	});
 }
 
@@ -51,7 +63,7 @@ function showRenderedFilename(filename) {
 }
 
 function showServerErrors(errors) {
-	setResult(errors);
+	setResultError(errors);
 }
 
 function setUpdateButtonEnabled(enabled) {
@@ -75,8 +87,14 @@ function codeEditKeyDown(e) {
 	}
 }
 
-function setResult(message) {
+function setResultError(message) {
+	setResult(message, "error")
+}
+
+function setResult(message, style) {
 	const resultContents = document.querySelector('#resultContents');
+	resultContents.classList.remove('error')
+	resultContents.classList.add(style)
 
 	if(typeof(message) == "string") {
 		resultContents.innerHTML = message;
