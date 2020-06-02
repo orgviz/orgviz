@@ -63,6 +63,8 @@ class ModelToGraphVizConverter():
 
                 key, val = map(lambda i: i.strip(), attributeSearch.split("=", 1))
 
+                print("key, val", key, val, person.getAttribute(key))
+
                 if val not in person.getAttribute(key):
                     return True
 
@@ -172,6 +174,7 @@ class ModelToGraphVizConverter():
     def getModelAsDot(self, model):
         out = ""
         out += "digraph {\n"
+        out += "rankdir = BT;\n"
 
         if self.opts.outputType == "png":
             out += "graph [ dpi = " + str(self.opts.dpi) +  " ]\n"
