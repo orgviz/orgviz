@@ -124,7 +124,12 @@ def tryPrintKey(person, key, columnIndexes, separator=":"):
 
         if val.strip() == "": return ""
 
-        return "\t" + key + separator + " " + str(person[columnIndexes[key]]) + "\n"
+        out = ""
+
+        for valElement in [x.strip() for x in val.split(",")]:
+            out += "\t" + key + separator + " " + valElement + "\n"
+
+        return out
     except IndexError:
         return ""
 
@@ -148,6 +153,7 @@ def generateDot(spreadsheetId):
         ret += tryPrintKey(person, "dmu", columnIndexes)
         ret += tryPrintKey(person, "sentiment", columnIndexes)
         ret += tryPrintKey(person, "reports", columnIndexes, " ->")
+        ret += tryPrintKey(person, "supports", columnIndexes, " ->")
         ret += tryPrintKey(person, "country", columnIndexes)
         ret += "\n"
 
