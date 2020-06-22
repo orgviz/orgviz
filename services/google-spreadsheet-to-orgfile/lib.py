@@ -114,6 +114,9 @@ def findColumnIndexes(sheets, spreadsheetId):
 
         columnIndexes[headerName] = index
 
+
+    logging.info("ColumnIndexes: " + str(columnIndexes))
+
     return columnIndexes
 
 def tryPrintKey(person, key, columnIndexes, separator=":"):
@@ -143,18 +146,21 @@ def generateDot(spreadsheetId):
     ret = ""
 
     for person in people:
-        name = person[columnIndexes["name"]]
+        try: 
+            name = person[columnIndexes["name"]]
 
-        if name.strip() == "": continue
+            if name.strip() == "": continue
 
-        ret += name + "\n"
-        ret += tryPrintKey(person, "title", columnIndexes)
-        ret += tryPrintKey(person, "team", columnIndexes)
-        ret += tryPrintKey(person, "dmu", columnIndexes)
-        ret += tryPrintKey(person, "sentiment", columnIndexes)
-        ret += tryPrintKey(person, "reports", columnIndexes, " ->")
-        ret += tryPrintKey(person, "supports", columnIndexes, " ->")
-        ret += tryPrintKey(person, "country", columnIndexes)
-        ret += "\n"
+            ret += name + "\n"
+            ret += tryPrintKey(person, "title", columnIndexes)
+            ret += tryPrintKey(person, "team", columnIndexes)
+            ret += tryPrintKey(person, "dmu", columnIndexes)
+            ret += tryPrintKey(person, "sentiment", columnIndexes)
+            ret += tryPrintKey(person, "reports", columnIndexes, " ->")
+            ret += tryPrintKey(person, "supports", columnIndexes, " ->")
+            ret += tryPrintKey(person, "country", columnIndexes)
+            ret += "\n"
+        except:
+            logging.info("Could not process person: " + str(person))
 
     return ret
