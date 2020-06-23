@@ -12,13 +12,13 @@ def runDot(graphvizFilename, outputImageFilename, imageType="png"):
 
         logging.debug("Running dot like this: %s", cmd)
 
-        output = subprocess.run(cmd.split(" "), shell=False, capture_output = True, check=False)
+        output = subprocess.run(cmd.split(" "), shell=False, capture_output=True, check=False)
 
         stderr = output.stderr.decode('utf-8')
         stdout = output.stdout.decode('utf-8')
 
-        logging.info("stderr: " + stderr)
-        logging.info("stdout: " + stdout)
+        logging.info("stderr: %s", stderr)
+        logging.info("stdout: %s", stdout)
 
         if output.returncode == 0:
             logging.info("Completed sucessfully, rendered: %s", outputImageFilename)
