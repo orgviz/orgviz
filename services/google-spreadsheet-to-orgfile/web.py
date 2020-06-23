@@ -4,11 +4,13 @@ import cherrypy
 
 import configargparse
 import os
+import json
 
 from time import sleep
 
 import logging
 import sys
+from googleapiclient.errors import HttpError
 
 from lib import generateDot, getSheetsApi, setCredentialsJson, setCookieFilename
 
@@ -31,15 +33,36 @@ class FrontendWrapper:
 
     @cherrypy.expose
     def generateFromSheet(self, spreadsheetId="none"):
+        ret = ""
+        errorMessage = None
+
         try:
+            ret = generateDot(spreadsheetId)
+        except HttpError as e:
+            if e.resp.status == 404:
+                errorMessage = "Google spreadsheet not found with that ID"
+            else:
+                errorMessage = "Unkown HTTP error: " + str(e.status)
+        except Exception as e:
+            errorMessage = str(type(e)) + ": " +  str(e)
+
+        if errorMessage is not None:
+            # FIXME
+            #cherrypy.response.headers['Content-Type'] = 'application/setupCredentialsJson'
+
+            cherrypy.response.status = 400;
+
+            ret = {
+                "errorMessage": errorMessage
+            }
+
+            logging.error("generateFromSheet: " + errorMessage)
+
+            return json.dumps(ret)
+        else:
             cherrypy.response.headers['Content-Type'] = 'text/plain'
 
-            ret = generateDot(spreadsheetId)
-
             return ret
-        except Exception as e:
-            print(str(e))
-            raise cherrypy.HTTPError(status=400)
 
 def setupCredentialsJson():
     # Design choice: sleep-wait for the file, as containers might take a short
@@ -63,7 +86,9 @@ def setupCredentialsJson():
 cherrypy.config.update({
     'server.socket_host': '0.0.0.0',
     'server.socket_port': args.port,
-    'log.screen': False
+    'log.screen': False,
+    'tools.encode.on': True,
+    'tools.encode.encoding': 'utf-8'
 });
 
 logging.getLogger().setLevel(args.logging)
