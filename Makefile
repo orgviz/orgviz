@@ -25,6 +25,6 @@ lint:
 	pylint-3 orgviz
 
 lint-debian:
-	pylint3 orgviz
+	pylint orgviz
 
 .PHONY: docs default test 
