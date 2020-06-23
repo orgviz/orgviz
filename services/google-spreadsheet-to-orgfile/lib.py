@@ -141,6 +141,12 @@ def generateDot(spreadsheetId):
 
     columnIndexes = findColumnIndexes(sheets, spreadsheetId)
 
+    missingColumns = {k:v for k, v in columnIndexes.items() if v == None}.keys()
+    missingColumns = list(missingColumns)
+
+    if len(missingColumns):
+        raise Exception("Could not find columns: " + ", ".join(missingColumns))
+
     people = spreadsheetQuery(sheets, "A2:K", spreadsheetId)
 
     ret = ""

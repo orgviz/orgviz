@@ -126,7 +126,17 @@ class FrontendWrapper:
 
             dotOutput = self.orgStringToDot(body, errors)
         else:
-            errors.append("Upstream status code is: " + str(r.status_code))
+            try: 
+                errorOutput = r.content.decode('utf-8')
+                errorJson = r.json()
+
+                if "errorMessage" in errorJson:
+                    errors.append(errorJson["errorMessage"])
+                else:
+                    errors.append("Upstream status code is: " + str(r.status_code))
+            except:
+                errors.append("Upstream status code is: " + str(r.status_code) + ", and could not determine the error message either!")
+
             dotOutput = ""
 
         return self.dotReturn(dotOutput, errors)
