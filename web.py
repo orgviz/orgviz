@@ -128,6 +128,9 @@ class FrontendWrapper:
         else:
             try: 
                 errorOutput = r.content.decode('utf-8')
+
+                logging.info("createImageFromWebservicem, errorOutput is: " + str(errorOutput))
+
                 errorJson = r.json()
 
                 if "errorMessage" in errorJson:
