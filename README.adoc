@@ -52,7 +52,7 @@ export ORGVIZ_INPUT=examples/ExampleCompany.org (1)
 ./orgviz.py (2)
 xdg-open orgviz.svg (3)
 ----
-1. Set the input file so we don't have to specify it every time
+1. Set the input file (so we don't have to specify it every time)
 2. Run orgviz to generate the image.
 3. Open the image with your default system viewer. 
 
@@ -98,15 +98,15 @@ When rendering the picture, there are various ways to vizualize the people. You
 can choose 1 of these options (eg `--vizType none`);
 
 1. `DS` - **Decision Making Unit** and **Sentiment** (default) 
-** Uses the `dmu` and `sentiment` attributes on people. <<vizTypeDs,Go to `vizType=DS` docs>>.
+** Uses the `dmu` and `sentiment` attributes of people. <<vizTypeDs,Go to `vizType=DS` docs>>.
 2. `inf` - Influence - A simple enemy / supporter / promoter
-** Uses the `influence` attribute on people. <<vizTypeInf,Go to `vizType=inf` docs>>
+** Uses the `influence` attribute of people. <<vizTypeInf,Go to `vizType=inf` docs>>
 3. `none` - everyone is drawn with just white boxes. <<vizTypeNone,Go to `vizType=none` docs>>
 
 
 === Option 1: `DS` - Decision Making Unit and Sentiment [[vizTypeDs]] (default)
 
-orgviz defaults to this `DS` view, which is useful for sales. `DS`
+orgviz defaults to this `DS` view, which is useful for sales teams. `DS`
 stands for **Decision Making Unit** (`dmu`) and **Sentiment** (`sentiment`). 
 
 ==== Example
@@ -124,11 +124,11 @@ James
 
 Available `dmu` options;
 
-- **U**ser - These are the people in an organisation who actually work with the products/services and get organisational benefits from them.  In many instances they are the ones that initiate the requirement for a solution.
-- **I**nfluencer - These are the people who can influence the buying decision for a number of reasons. For example, the IT team within and company may influence an organisation’s decision as to what software or solutions the company should buy. In this example, they are often the ones charged with evaluating various alternatives and making the internal recommendation to the business. If Red Hat is selected then we have achieved a Technical Win
-- **G**atekeeper - These people control the flow of information to others. For example, a personal secretary may not allow the sales people from a supplier to have access to deciders or users. Likewise, a receptionist may play the role of a gatekeeper as he/she usually maintains telephone, email, and postal communications.  
-- **B**uyer - These are the people who have formal authority to negotiate with suppliers. They negotiate and arrange terms of purchase with the suppliers. As negotiation is a specialist area, high level employees usually play the roles of buyers.
-- **D**ecision Maker - These are the people who have the final say in the buying decision. They have the power and authority to select the final suppliers to move on with the buying process.  For example, the finance manager in a company may decide which supplier to work with on the basis of how much money the supplier is asking for a particular product/service.
+- **U**ser - People in an organisation who directly work with the products/services and get organisational benefits from them.  They are often the ones that initiate the requirement for a solution.
+- **I**nfluencer - People who can influence the buying decision for a number of reasons. For example, the IT team within and company may influence an organisation’s decision as to what software or solutions that company should buy. In this example, they are often the ones charged with evaluating various alternatives and making the internal recommendation to the business. If Red Hat is selected then we have achieved a Technical Win
+- **G**atekeeper - People who control the flow of information to others. For example, a personal secretary may not allow the sales people from a supplier to have access to deciders or users. Likewise, a receptionist may play the role of a gatekeeper as he/she usually maintains telephone, email, and postal communications.  
+- **B**uyer - People who have formal authority to negotiate with suppliers. They negotiate and arrange terms of purchase with the suppliers. As negotiation is a specialist function, high level employees usually play the roles of buyers.
+- **D**ecision Maker - People who have the final say in the buying decision. They have the power and authority to select the final suppliers to move on with the buying process.  For example, the finance manager in a company may decide which supplier to work with on the basis of how much money the supplier is asking for a particular product/service.
 
 Available `sentiment` options;
 
@@ -138,8 +138,8 @@ Available `sentiment` options;
 
 === Option 2: `inf` - Influence [[vizTypeInf]]
 
-There is also the option to use a more simple view, called "influence" - does
-this person influential or not?
+There is also the option to create a more simplistic view, called "influence" - i.e does
+this person have influence over this Opportunity/Account or not?
 
 ==== Example
 
@@ -162,7 +162,7 @@ Available `influence` options;
 
 === Option 3: Plain display [[vizTypeNone]]
 
-Sometimes you don't want to show the influence type when generating the
+This removes the influence type when generating the
 picture - this is useful for presentations and similar. 
 
 ==== Example
@@ -180,8 +180,8 @@ You don't need to change any attributes. Simply run orgviz like this;
 == Configuration File
 
 If you get tired of specifying command line options, then create
-`~/.orgviz.cfg` and pop your options in there to save time. You can use
-`--help` to find the list of all available options.
+`~/.orgviz.cfg` and pop your options in there to save time. Use
+`--help` to find syntax for this and the list of all available options.
 
 == Profile pictures
 
