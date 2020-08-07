@@ -5,6 +5,8 @@ import sys
 import logging
 import tempfile
 import os
+from os import listdir
+from os.path import isfile, join
 
 import sys
 
@@ -17,7 +19,7 @@ from orgviz.graphviz import runDot
 
 def getArgumentParser():
     parser = ArgParser(default_config_files = ["~/.orgviz.cfg"])
-    parser.add_argument("--input", "-I", default = "default.org", env_var = "ORGVIZ_INPUT")
+    parser.add_argument("--input", "-I", default = None, env_var = "ORGVIZ_INPUT")
     parser.add_argument("--output", "-O", default = os.getcwd())
     parser.add_argument("--skipDrawingLegend", "-L", action = "store_true")
     parser.add_argument("--skipDrawingTeams", action = "store_true")
@@ -36,7 +38,22 @@ def getArgumentParser():
 
     return parser
 
+def findFirstOrgfileInCurrentDirectory():
+    cwd = os.getcwd();
+
+    files = [f for f in listdir(cwd) if isfile(join(cwd, f))];
+
+    for f in files:
+        if f.endswith(".org"):
+            return f
+
+    logging.warning("Could not find a .org file in this directory.")
+    return "?"
+
 def getFileContents():
+    if args.input == None:
+        args.input = findFirstOrgfileInCurrentDirectory();
+
     logging.info("Reading org file: " + args.input)
 
     try: 
