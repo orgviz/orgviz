@@ -94,6 +94,7 @@ class ModelToGraphVizConverter():
             out += "subgraph cluster_" + str(subGraphCount) + "{\n"
             out += 'label="' + teamName + '"' + "\n"
             out += "style=filled\n"
+            out += "labelloc=b\n" # Because the graph is "drawn upside down", b -> t
             out += "fillcolor=skyblue\n"
 
             for person in model.people.values():
