@@ -8,11 +8,18 @@ import subprocess
 
 def runDot(graphvizFilename, outputImageFilename, imageType="png"):
     try: 
-        cmd = "dot -T" + imageType + " " + graphvizFilename + " -o" + outputImageFilename
+        cmd = [
+            "dot",
+            "-T",
+            imageType,
+            graphvizFilename,
+            "-o",
+            outputImageFilename
+        ]
 
         logging.debug("Running dot like this: %s", cmd)
 
-        output = subprocess.run(cmd.split(" "), shell=False, capture_output=True, check=False)
+        output = subprocess.run(cmd, shell=False, capture_output=True, check=False)
 
         stderr = output.stderr.decode('utf-8')
         stdout = output.stdout.decode('utf-8')
