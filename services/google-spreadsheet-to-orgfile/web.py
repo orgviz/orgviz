@@ -41,8 +41,10 @@ class FrontendWrapper:
         except HttpError as e:
             if e.resp.status == 404:
                 errorMessage = "Google spreadsheet not found with that ID"
+            elif e.resp.status == 403:
+                errorMessage = "Cannot access that Google spreadsheet, check the sharing settings."
             else:
-                errorMessage = "Unkown HTTP error: " + str(e.status)
+                errorMessage = "Unkown HTTP error: " + str(e.resp.status)
         except Exception as e:
             errorMessage = str(type(e)) + ": " +  str(e)
 
