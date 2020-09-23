@@ -11,18 +11,23 @@ class Person():
     """
 
     def __init__(self, fullName):
-        fullName = fullName.strip()
+        self.fullName = fullName.strip()
 
-        if re.fullmatch("[\\w\\-‘ ]+", fullName) is None:
-            logging.warning("Person's name contains invalid characters: %s", fullName)
+        if not self.isNameValid():
+            logging.warning("Person's name contains invalid characters: %s", self.fullName)
 
-        self.fullName = fullName
-        self.dotNodeName = Person.getDotNodeNameFromFullName(fullName)
+        self.dotNodeName = Person.getDotNodeNameFromFullName(self.fullName)
         self.team = "??"
         self.influence = ""
         self.dmu = "U"
         self.sentiment = "N"
         self.attributes = dict()
+
+    def isNameValid(self):
+        if re.fullmatch("[\\w\\-‘' ]+", self.fullName) is None:
+            return False
+        else:
+            return True
 
     @staticmethod
     def getDotNodeNameFromFullName(fullName):
@@ -30,6 +35,7 @@ class Person():
         name = name.strip().replace(" ", "_")
         name = name.strip().replace("-", "")
         name = name.strip().replace("‘", "_")
+        name = name.strip().replace("'", "_")
 
         return name
 
