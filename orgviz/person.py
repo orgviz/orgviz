@@ -14,7 +14,7 @@ class Person():
         self.fullName = fullName.strip()
 
         if not self.isNameValid():
-            logging.warning("Person's name contains invalid characters: %s", self.fullName)
+            raise Exception("Person's name contains invalid characters: " + self.fullName)
 
         self.dotNodeName = Person.getDotNodeNameFromFullName(self.fullName)
         self.team = "??"
