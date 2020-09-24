@@ -48,7 +48,11 @@ class FrontendWrapper:
 
             conv = ModelToGraphVizConverter(opts=opts)
             mdl = parseModel(body)
-            body = conv.getModelAsDot(mdl)
+
+            try: 
+                body = conv.getModelAsDot(mdl)
+            except Exception as e:
+                errors.append(str(e))
 
             dotOutput = self.orgStringToDot(body, errors)
 
@@ -122,7 +126,11 @@ class FrontendWrapper:
 
             conv = ModelToGraphVizConverter(opts=opts)
             mdl = parseModel(orgFileFromWebservice)
-            body = conv.getModelAsDot(mdl)
+
+            try: 
+                body = conv.getModelAsDot(mdl)
+            except Exception as e:
+                errors.append(str(e))
 
             dotOutput = self.orgStringToDot(body, errors)
         else:
