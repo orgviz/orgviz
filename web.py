@@ -182,7 +182,9 @@ def error_handler():
   excType = exceptionInfo[0]
   exception = exceptionInfo[1]
 
-  msg = "Unhandled exception.\n" + "Message: " + str(exception) + "\n" + "Type: " + str(excType.__name__)
+  msg = str(exception)
+  
+  logging.warning("error_handler exception type: " + str(excType.__name__) + ". message: " + str(exception))
 
   cherrypy.response.body = jsonHttpErrorResponse([msg])
 
