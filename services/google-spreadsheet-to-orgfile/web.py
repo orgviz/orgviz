@@ -10,6 +10,7 @@ from time import sleep
 
 import logging
 import sys
+from sys import exc_info
 from googleapiclient.errors import HttpError
 
 from lib import generateDot, getSheetsApi, setCredentialsJson, setCookieFilename
@@ -21,6 +22,16 @@ parser.add_argument("--cookieFilename", default = '/etc/orgviz-cookie/cookie', e
 parser.add_argument('--port', default = 8081, type = int, env_var = "PORT");
 args = parser.parse_args();
 
+def jsonHttpErrorResponse(errorMessage):
+    cherrypy.response.headers['Content-Type'] = 'application/json'
+    cherrypy.response.status = 400;
+
+    logging.error(errorMessage)
+
+    return json.dumps({
+        "errorMessage": errorMessage
+    }, ensure_ascii=False).encode('utf8')
+
 class FrontendWrapper:
     @cherrypy.expose
     def index(self):
@@ -31,8 +42,7 @@ class FrontendWrapper:
 
         return ret
 
-    @cherrypy.expose
-    def generateFromSheet(self, spreadsheetId="none"):
+    def generateDotAndCatchError(self, spreadsheetId): 
         ret = ""
         errorMessage = None
 
@@ -48,19 +58,16 @@ class FrontendWrapper:
         except Exception as e:
             errorMessage = str(type(e)) + ": " +  str(e)
 
+        return ret, errorMessage
+
+    @cherrypy.expose
+    def generateFromSheet(self, spreadsheetId="none"):
+        ret, errorMessage = self.generateDotAndCatchError(spreadsheetId)
+
         if errorMessage is not None:
-            # FIXME
-            #cherrypy.response.headers['Content-Type'] = 'application/setupCredentialsJson'
-
-            cherrypy.response.status = 400;
-
-            ret = {
-                "errorMessage": errorMessage
-            }
-
             logging.error("generateFromSheet: " + errorMessage)
 
-            return json.dumps(ret)
+            return jsonHttpErrorResponse(errorMessage)
         else:
             cherrypy.response.headers['Content-Type'] = 'text/plain'
 
@@ -85,7 +92,21 @@ def setupCredentialsJson():
 
     getSheetsApi()
 
+def http_error_handler(status, message, traceback, version):
+  return jsonHttpErrorResponse(message)
+
+def error_handler():
+  exceptionInfo = exc_info()
+  excType = exceptionInfo[0]
+  exception = exceptionInfo[1]
+
+  msg = "Unhandled exception.\n" + "Message: " + str(exception) + "\n" + "Type: " + str(excType.__name__)
+
+  return jsonHttpErrorResponse(msg)
+
 cherrypy.config.update({
+    'request.error_response': error_handler,
+    'request.error_page': {"default": http_error_handler},
     'server.socket_host': '0.0.0.0',
     'server.socket_port': args.port,
     'log.screen': False,
