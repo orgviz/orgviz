@@ -22,7 +22,7 @@ documented well so it's difficult to understand how your change might affect
 the general direction and roadmap of this project without asking. 
 
 The preferred way to communicate is the Telegram chat linked in the
-link:README[README], or GitHub issue.
+link:README.adoc[README], or GitHub issue.
 
 == Setting up your development environment 
 
