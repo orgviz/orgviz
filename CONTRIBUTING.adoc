@@ -12,7 +12,19 @@ Ideas may be discussed, purely on their merits and issues. Our Code of Conduct
 discussion throughout the whole process. This project respects the 
 link:https://www.kernel.org/doc/html/latest/process/code-of-conduct.html[Linux Kernel code of conduct]. 
 
-== Development environment setup
+== If you're not sure, ask!
+
+Don't be afraid to ask for advice before working on a
+contribution. If you're thinking about a bigger change, especially that might
+affect the core working or architecture, it's almost essential to talk and ask
+about what you're planning might affect things. Some of the larger future plans may not be
+documented well so it's difficult to understand how your change might affect
+the general direction and roadmap of this project without asking. 
+
+The preferred way to communicate is the Telegram chat linked in the
+link:README[README], or GitHub issue.
+
+== Setting up your development environment 
 
 === orgviz "module"
 
@@ -41,7 +53,7 @@ loads it's module dependencies from the `orgviz` directory.
 
 Thanks so much for your time! :-) 
 
-== Testing your changes
+=== Checklist - testing your changes
 
 Before you PR, please run these checks locally;
 
