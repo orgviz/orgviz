@@ -1,12 +1,16 @@
 = Contributions
 
-Contributions are very welcome - code, docs, whatever they might be!
+Contributions are very welcome - code, docs, whatever they might be! If this is
+your first contribution to an Open Source project or you're a core maintainer
+of multiple projects, you're time and interest in contributing is most welcome.
 
 If you're not sure where to get started, a great place to get started is a list
-of link::https://github.com/orgviz/orgviz/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22[good first issues for contribution].
+of link:https://github.com/orgviz/orgviz/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22[good first issues for contribution].
 
-Ideas may be discussed, purely on their merits and issues. It's important that
-contributors feel comfortable in discussion throughout the whole process. 
+Ideas may be discussed, purely on their merits and issues. Our Code of Conduct
+(CoC) is straightforward - it's important that contributors feel comfortable in 
+discussion throughout the whole process. This project respects the 
+link:https://www.kernel.org/doc/html/latest/process/code-of-conduct.html[Linux Kernel code of conduct]. 
 
 == Development environment setup
 
