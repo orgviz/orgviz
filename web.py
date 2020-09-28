@@ -5,11 +5,14 @@ import requests
 
 import configargparse
 import os
+import json
 
 import logging
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "orgviz"))
+
+from sys import exc_info
 
 from orgviz.modelToGraphviz import ModelToGraphVizConverter
 from orgviz.model import ModelOptions
@@ -26,6 +29,15 @@ parser.add_argument('--webserviceUrl', default = 'http://localhost', env_var = "
 parser.add_argument('--webserviceName', default = 'From Webservice', env_var = "WEBSERVICE_NAME");
 parser.add_argument('--webserviceKeyName', default = 'Key', env_var = "WEBSERVICE_KEY_NAME");
 args = parser.parse_args();
+
+def jsonHttpErrorResponse(errors, filename = ""):
+    cherrypy.response.headers['Content-Type'] = 'application/json'
+    cherrypy.response.status = 400;
+
+    return json.dumps({
+        "errors": errors,
+        "filename": filename
+    }, ensure_ascii=False).encode('utf8')
 
 class FrontendWrapper:
     @cherrypy.expose
@@ -48,7 +60,11 @@ class FrontendWrapper:
 
             conv = ModelToGraphVizConverter(opts=opts)
             mdl = parseModel(body)
-            body = conv.getModelAsDot(mdl)
+
+            try: 
+                body = conv.getModelAsDot(mdl)
+            except Exception as e:
+                errors.append(str(e))
 
             dotOutput = self.orgStringToDot(body, errors)
 
@@ -122,7 +138,11 @@ class FrontendWrapper:
 
             conv = ModelToGraphVizConverter(opts=opts)
             mdl = parseModel(orgFileFromWebservice)
-            body = conv.getModelAsDot(mdl)
+
+            try: 
+                body = conv.getModelAsDot(mdl)
+            except Exception as e:
+                errors.append(str(e))
 
             dotOutput = self.orgStringToDot(body, errors)
         else:
@@ -154,6 +174,19 @@ class FrontendWrapper:
             "webserviceKeyName": args.webserviceKeyName,
         }
 
+def http_error_handler(status, message, traceback, version):
+  return jsonHttpErrorResponse([message])
+
+def error_handler():
+  exceptionInfo = exc_info()
+  excType = exceptionInfo[0]
+  exception = exceptionInfo[1]
+
+  msg = str(exception)
+  
+  logging.warning("error_handler exception type: " + str(excType.__name__) + ". message: " + str(exception))
+
+  cherrypy.response.body = jsonHttpErrorResponse([msg])
 
 cherrypy.config.update({
     'server.socket_host': '0.0.0.0',
@@ -162,7 +195,11 @@ cherrypy.config.update({
 });
 
 config = {
-    '/webui': {
+     '/' : {
+        'request.error_response': error_handler,
+        'request.error_page': {"default": http_error_handler}
+    },
+   '/webui': {
     'tools.staticdir.on': True,
     'tools.staticdir.dir': 'webui/dist',
     'tools.staticdir.root': os.path.dirname(os.path.realpath(__file__)),

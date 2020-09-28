@@ -90,16 +90,22 @@ def main():
     opts.profilePictureDirectory = args.profilePictureDirectory
     opts.dpi = args.dpi
 
-    mdl = parseModel(getFileContents())
-    converter = ModelToGraphVizConverter(opts);
+    out = None
 
-    out = converter.getModelAsDot(mdl);
+    try: 
+        mdl = parseModel(getFileContents())
+        converter = ModelToGraphVizConverter(opts);
+
+        out = converter.getModelAsDot(mdl);
+    except Exception as e:
+        logging.error(str(e))
+
 
     if args.dotout:
         logging.warning("Outputting graph to stdout, not running Dot")
 
         print(out)
-    else:
+    elif out is not None:
         temporaryGraphvizFile = tempfile.NamedTemporaryFile(delete = args.keepDotfile)
         temporaryGraphvizFile.write(bytes(out, "UTF-8"))
         temporaryGraphvizFile.flush();
