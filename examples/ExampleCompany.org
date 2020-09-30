@@ -101,3 +101,31 @@ Kolbjørn
 	dmu: User
 	sentiment: Neutral
 	team: Finance
+
+John O'Reilly
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+ישראלה ישראלי
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+Lessie, Jane
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+فلانة الفلانية
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
