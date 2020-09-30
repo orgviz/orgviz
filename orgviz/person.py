@@ -2,7 +2,6 @@
 Contains a class that represents a logical Person. 
 """
 
-import re
 import logging
 
 class Person():
@@ -13,9 +12,6 @@ class Person():
     def __init__(self, fullName):
         self.fullName = fullName.strip()
 
-        if not self.isNameValid():
-            raise Exception("Person's name contains invalid characters: " + self.fullName)
-
         self.dotNodeName = Person.getDotNodeNameFromFullName(self.fullName)
         self.team = "??"
         self.influence = ""
@@ -23,19 +19,10 @@ class Person():
         self.sentiment = "N"
         self.attributes = dict()
 
-    def isNameValid(self):
-        if re.fullmatch("[\\w\\-‘' ]+", self.fullName) is None:
-            return False
-        return True
-
     @staticmethod
     def getDotNodeNameFromFullName(fullName):
-        name = fullName
-        name = name.strip().replace(" ", "_")
-        name = name.strip().replace("-", "")
-        name = name.strip().replace("‘", "_")
-        name = name.strip().replace("'", "_")
-
+        fullName = fullName.strip().replace("\"", "\\\"")
+        name = "\"" + fullName + "\""
         return name
 
     def getDmuDescription(self):

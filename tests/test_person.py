@@ -33,20 +33,3 @@ def test_sentiment_descriptions():
 
     p.setSentiment("Neutral")
     assert p.getSentimentDescription() == "Neutral"
-
-def test_names():
-    p = Person("Alice O'Donnel")
-    assert p.isNameValid();
-
-    p = Person("Bob Smithy-Smitherson")
-    assert p.isNameValid();
-
-    p = Person("Charles O‘Dowd")
-    assert p.isNameValid();
-
-    p = Person("Dávéy Jöñês")
-    assert p.isNameValid();
-
-    p = Person("þor")
-    assert p.isNameValid();
-
