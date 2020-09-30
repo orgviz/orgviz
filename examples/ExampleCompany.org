@@ -102,7 +102,7 @@ Kolbjørn
 	sentiment: Neutral
 	team: Finance
 
-John O'Reilly
+John F. O'Reilly (Junior)
 	reports -> Dave
 	title: Assistant
 	dmu: User
