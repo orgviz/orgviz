@@ -19,7 +19,7 @@ class Model():
 
     def findPerson(self, name):
         for person in self.people.values():
-            if person.getAttribute('id') == name:
+            if Person.getDotNodeNameFromFullName(person.getAttribute('id')) == name:
                 return person
         return self.getPersonByName(name)
 
