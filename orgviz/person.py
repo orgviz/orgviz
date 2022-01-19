@@ -26,8 +26,8 @@ class Person():
     def isNameValid(self):
         if re.fullmatch("[\\w\\-‘' ]+", self.fullName) is None:
             return False
-        else:
-            return True
+        
+        return True
 
     @staticmethod
     def getDotNodeNameFromFullName(fullName):
