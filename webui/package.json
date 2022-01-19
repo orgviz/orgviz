@@ -9,9 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parcel-bundler": "^1.12.4"
-  },
-  "devDependencies": {
-    "pug": "^2.0.4"
+    "parcel": "^2.2.1"
   }
 }
