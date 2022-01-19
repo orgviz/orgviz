@@ -57,4 +57,3 @@ def test_names():
     with pytest.raises(Exception):
         p = Person("Neo 123#@!'")
         assert not p.isNameValid();
-

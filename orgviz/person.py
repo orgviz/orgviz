@@ -31,8 +31,8 @@ class Person():
 
     @staticmethod
     def getDotNodeNameFromFullName(fullName):
-        name = fullName
-        name = name.strip().replace(" ", "_")
+        fullName = fullName.strip().replace("\"", "\\\"")
+        name = "\"" + fullName + "\""
         name = name.strip().replace("-", "")
         name = name.strip().replace("‘", "_")
         name = name.strip().replace("'", "_")

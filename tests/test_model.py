@@ -14,9 +14,9 @@ class ModelTestCase(unittest.TestCase):
         assert len(m.people) == 1
 
         with self.assertRaises(Exception):
-            m.findPerson("Gwendelina")
+            m.findPerson(Person.getDotNodeNameFromFullName("Gwendelina"))
 
-        assert m.findPerson("Dave") is not None
+        assert m.findPerson(Person.getDotNodeNameFromFullName("Dave")) is not None
 
     def test_find_by_id(self):
         m = Model()
@@ -24,11 +24,11 @@ class ModelTestCase(unittest.TestCase):
         m.addPerson("Dave")
         m.lastPerson.setAttribute("id", "superman")
 
-        self.assertTrue(m.findPerson("Dave") is not None)
-        self.assertTrue(m.findPerson("superman") is not None)
+        self.assertTrue(m.findPerson(Person.getDotNodeNameFromFullName("Dave")) is not None)
+        self.assertTrue(m.findPerson(Person.getDotNodeNameFromFullName("superman")) is not None)
 
         with self.assertRaises(Exception):
-            m.findPerson("superted")
+            m.findPerson(Person.getDotNodeNameFromFullName("superted"))
 
 
     def test_add_team(self):
@@ -53,5 +53,3 @@ class ModelTestCase(unittest.TestCase):
 
     def test_create_model_options(self):
         mo = ModelOptions()
-
-

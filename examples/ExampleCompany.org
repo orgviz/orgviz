@@ -88,7 +88,7 @@ James
 	dmu: U
 	sentiment: O
 
-Lisa-Marie
+Lisa-Marie "Liz"
 	reports -> Alice
 	team: Leadership
 	dmu: U
@@ -96,6 +96,34 @@ Lisa-Marie
 	title: Sales & Services
 
 Kolbjørn
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+John F. O'Reilly (Junior)
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+ישראלה ישראלי
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+Lessie, Jane
+	reports -> Dave
+	title: Assistant
+	dmu: User
+	sentiment: Neutral
+	team: Finance
+
+فلانة الفلانية
 	reports -> Dave
 	title: Assistant
 	dmu: User
