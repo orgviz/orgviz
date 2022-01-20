@@ -6,7 +6,7 @@ models to GraphViz.
 import logging
 import os
 
-from model import ModelOptions
+from orgviz.model import ModelOptions
 
 class ModelToGraphVizConverter():
     """

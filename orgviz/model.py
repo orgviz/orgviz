@@ -3,7 +3,7 @@ An orgviz "model" is the logical structure of the graph, that is passed to
 GraphViz.
 """
 
-from person import Person
+from orgviz.person import Person
 
 class Model():
     """

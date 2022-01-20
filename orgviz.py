@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 
-from configargparse import ArgParser
 import sys
 import logging
 import tempfile
 import os
+
 from os import listdir
 from os.path import isfile, join
-
-import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "orgviz"))
+from configargparse import ArgParser
 
 from orgviz.modelToGraphviz import ModelToGraphVizConverter
 from orgviz.modelParser import parseModel
 from orgviz.model import ModelOptions
 from orgviz.graphviz import runDot
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "orgviz"))
+
+args = None
 
 def getArgumentParser():
     parser = ArgParser(default_config_files = ["~/.orgviz.cfg"])
@@ -32,16 +33,16 @@ def getArgumentParser():
     parser.add_argument("--profilePictures", "-P", action = "store_true")
     parser.add_argument("--outputType", "-T", default = "svg", choices = ["png", "svg"])
     parser.add_argument("--keepDotfile", action = "store_false")
-    parser.add_argument("--vizType", choices = ["DS", "inf", "none"], default = "DS");
-    parser.add_argument("--dpi", type = int, default = 100, help = 'DPI (resolution), only used for PNG.');
+    parser.add_argument("--vizType", choices = ["DS", "inf", "none"], default = "DS")
+    parser.add_argument("--dpi", type = int, default = 100, help = 'DPI (resolution), only used for PNG.')
     parser.add_argument("--attributeMatches", "-a", nargs = "*", default = [], metavar = "KEY=VALUE")
 
     return parser
 
 def findFirstOrgfileInCurrentDirectory():
-    cwd = os.getcwd();
+    cwd = os.getcwd()
 
-    files = [f for f in listdir(cwd) if isfile(join(cwd, f))];
+    files = [f for f in listdir(cwd) if isfile(join(cwd, f))]
 
     for f in files:
         if f.endswith(".org"):
@@ -51,33 +52,31 @@ def findFirstOrgfileInCurrentDirectory():
     return "?"
 
 def getFileContents():
-    if args.input == None:
-        args.input = findFirstOrgfileInCurrentDirectory();
+    if args.input is None:
+        args.input = findFirstOrgfileInCurrentDirectory()
 
-    logging.info("Reading org file: " + args.input)
+    logging.info("Reading org file: %s", args.input)
 
     try: 
-        f = open(args.input, 'r', encoding='utf8');
-
-        contents = f.read();
-
-        f.close()
+        with open(args.input, 'r', encoding='utf8') as f:
+            contents = f.read()
 
         return contents
     except FileNotFoundError:
-        logging.fatal("Could not find input file: " + args.input);
+        logging.fatal("Could not find input file: %s", args.input)
         sys.exit()
 
 def main():
     global args
+
     args = getArgumentParser().parse_args()
 
     logging.getLogger().setLevel(args.logging)
     logging.basicConfig(format = "[%(levelname)s] %(message)s ")
 
-    logging.debug("Teams: " + str(args.teams))
+    logging.debug("Teams: %s", str(args.teams))
 
-    opts = ModelOptions();
+    opts = ModelOptions()
     opts.skipDrawingLegend = args.skipDrawingLegend
     opts.skipDrawingTitle = args.skipDrawingTitle
     opts.skipDrawingTeams = args.skipDrawingTeams
@@ -94,11 +93,11 @@ def main():
 
     try: 
         mdl = parseModel(getFileContents())
-        converter = ModelToGraphVizConverter(opts);
+        converter = ModelToGraphVizConverter(opts)
 
-        out = converter.getModelAsDot(mdl);
-    except Exception as e:
-        logging.error(str(e))
+        out = converter.getModelAsDot(mdl)
+    except Exception as exception:
+        logging.error(str(exception))
 
 
     if args.dotout:
@@ -106,11 +105,11 @@ def main():
 
         print(out)
     elif out is not None:
-        temporaryGraphvizFile = tempfile.NamedTemporaryFile(delete = args.keepDotfile)
-        temporaryGraphvizFile.write(bytes(out, "UTF-8"))
-        temporaryGraphvizFile.flush();
+        with tempfile.NamedTemporaryFile(delete = args.keepDotfile) as temporaryGraphvizFile:
+            temporaryGraphvizFile.write(bytes(out, "UTF-8"))
+            temporaryGraphvizFile.flush()
 
-        logging.debug("Wrote DOT file to: " + str(temporaryGraphvizFile.name));
+        logging.debug("Wrote DOT file to: %s", str(temporaryGraphvizFile.name))
 
         outputImageFilename = args.output + "/orgviz." + args.outputType
         
@@ -119,5 +118,5 @@ def main():
         temporaryGraphvizFile.close() # will delege the org file if !args.keepDotFile
 
 if __name__ == "__main__":
-    main();
+    main()
 

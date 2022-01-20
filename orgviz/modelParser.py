@@ -3,7 +3,7 @@ Parses orgviz models from strings into model.Model
 """
 
 import logging
-from model import Model
+from orgviz.model import Model
 
 def parseModel(contents):
     model = Model()
